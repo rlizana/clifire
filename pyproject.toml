@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "clifire"
+version = "0.1.0"
+description = ""
+authors = ["Roberto Lizana <rober.lizana@gmail.com>"]
+readme = "README.md"
+packages = [{include = "clifire"}]
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+rich = "^14.0.0"
+nuitka = "^2.7.3"
+pytest = "^8.3.5"
+
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.8.2"
+pre-commit = "^4.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

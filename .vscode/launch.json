@@ -1,0 +1,46 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Poetry: Run Pytest",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["-s"],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Sample: out info 'Hello, World!'",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/sample/out.py",
+      "args": ["info", "'Hello, World!'"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Sample: out live 3",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/sample/out.py",
+      "args": ["live", "3"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Sample: out version",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/sample/out.py",
+      "args": ["version"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Sample: out help",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/sample/out.py",
+      "args": ["help", "info ask"],
+      "console": "integratedTerminal"
+    }
+  ]
+}
