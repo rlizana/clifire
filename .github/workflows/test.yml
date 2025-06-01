@@ -22,7 +22,7 @@ jobs:
         poetry install --with dev
 
     - name: Run unit tests
-      run: poetry run coverage run -m unittest discover -s tests
+      run: poetry run coverage run -m pytest
 
     - name: Generate coverage report
       run: poetry run coverage xml
