@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/changelog/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/changelog/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/changelog/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/contributing/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/contributing/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/quick-start/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/user-guide/basics/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/basics/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/basics/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/user-guide/classes/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/classes/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/classes/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/user-guide/config/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/config/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/config/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/user-guide/decorators/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/decorators/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/decorators/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/user-guide/grouped-commands/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/grouped-commands/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/grouped-commands/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/user-guide/options-arguments/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/options-arguments/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/options-arguments/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/user-guide/output/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/output/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/output/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/user-guide/templates/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/templates/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/templates/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/changelog/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/changelog/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/changelog/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/contributing/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/contributing/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/quick-start/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/user-guide/basics/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/basics/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/basics/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/user-guide/classes/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/classes/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/classes/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/user-guide/config/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/config/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/config/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/user-guide/decorators/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/decorators/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/decorators/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/user-guide/grouped-commands/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/grouped-commands/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/grouped-commands/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/user-guide/options-arguments/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/options-arguments/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/options-arguments/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/user-guide/output/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/output/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/output/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/es/user-guide/templates/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/templates/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/templates/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/changelog/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/changelog/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/changelog/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/contributing/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/contributing/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/quick-start/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/user-guide/basics/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/basics/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/basics/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/user-guide/classes/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/classes/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/classes/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/user-guide/config/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/config/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/config/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/user-guide/decorators/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/decorators/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/decorators/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/user-guide/grouped-commands/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/grouped-commands/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/grouped-commands/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/user-guide/options-arguments/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/options-arguments/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/options-arguments/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/user-guide/output/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/output/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/output/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/en/user-guide/templates/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/en/user-guide/templates/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/en/user-guide/templates/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/changelog/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/changelog/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/changelog/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/contributing/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/contributing/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/contributing/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/quick-start/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/quick-start/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/user-guide/basics/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/basics/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/basics/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/user-guide/classes/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/classes/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/classes/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/user-guide/config/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/config/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/config/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/user-guide/decorators/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/decorators/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/decorators/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/user-guide/grouped-commands/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/grouped-commands/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/grouped-commands/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/user-guide/options-arguments/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/options-arguments/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/options-arguments/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/user-guide/output/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/output/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/output/"/>
+    </url>
+    <url>
+        <loc>https://rlizana.github.io/clifire/en/es/user-guide/templates/</loc>
+        <lastmod>2025-06-08</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://rlizana.github.io/clifire/en/es/user-guide/templates/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://rlizana.github.io/clifire/es/user-guide/templates/"/>
+    </url>
+</urlset>
