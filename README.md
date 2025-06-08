@@ -66,7 +66,7 @@ For more details, see our [Quick Start Guide](https://rlizana.github.io/clifire/
 
 ## Documentation
 
-The full documentation is available on GitHub Pages in [English](http://127.0.0.1:8000/rlizana/clifire/en/) and [Spanish](http://127.0.0.1:8000/rlizana/clifire/es/es/). It covers topics such as:
+The full documentation is available on GitHub Pages in [English](https://rlizana.github.io/clifire/en) and [Spanish](https://rlizana.github.io/clifire/es/es). It covers topics such as:
 
 - [CliFire Basics](https://rlizana.github.io/clifire/en/user-guide/basics.md)
 - [Decorators](https://rlizana.github.io/clifire/en/user-guide/decorators.md)
