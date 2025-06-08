@@ -18,7 +18,7 @@ class CommandInfo(command.Command):
         alias=["t", "color"],
     )
 
-    def run(self):
+    def fire(self):
         if self.name:
             self.text = f"{self.name}: {self.text}"
         if self.type == "info":
@@ -50,7 +50,7 @@ class CommandInfoAsk(command.Command):
         alias=["char"],
     )
 
-    def run(self):
+    def fire(self):
         self.text = f"{self.text}{self.end_char}"
         if self.type == "info":
             out.info(self.text)
@@ -68,7 +68,7 @@ class CommandLive(command.Command):
 
     time = command.Field(pos=1, force_type=int, help="Duration in seconds")
 
-    def run(self):
+    def fire(self):
         time_sleep = 0.5
         live = out.LiveText("Starting ...")
         time.sleep(time_sleep)
@@ -89,17 +89,9 @@ class CommandLive(command.Command):
 
 
 app = application.App(name="Out sample", version="1.0")
-app.add_option(
-    "verbose",
-    command.Field(
-        help="Verbose mode, print more details",
-        default=False,
-        alias=["v", "vv", "vvv"],
-    ),
-)
 app.add_command(CommandInfo)
 app.add_command(CommandInfoAsk)
 app.add_command(CommandLive)
 
 if __name__ == "__main__":
-    app.launch()
+    app.fire()

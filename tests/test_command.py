@@ -38,9 +38,15 @@ class CommandContact(command.Command):
             default="dynamic",
         )
 
-    def run(self):
+    def fire(self):
         out.info(f"Contact {self.name} with {self.age} years old")
         return True
+
+
+@pytest.fixture(autouse=True)
+def reset_current_app():
+    application.App.current_app = None
+    yield
 
 
 def output(capsys):
@@ -68,50 +74,48 @@ def test_command_exception(capsys):
     class CommandTest(command.Command):
         _name = "test"
 
-        def run(self):
+        def fire(self):
             raise command.CommandException("Test exception")
 
     app = application.App()
     app.add_command(CommandTest)
-    try:
-        app.launch("test")
-    except SystemExit as e:
-        assert e.code == 30
-        assert "Test exception" in output(capsys)
+    with pytest.raises(SystemExit) as excinfo:
+        app.fire("test")
+    assert "30" == str(excinfo.value)
+    assert "Test exception" in output(capsys)
 
 
 def test_command_not_exists(capsys):
     app = application.App()
-    try:
-        app.launch("NotExist")
-    except SystemExit as e:
-        assert e.code == 20
-        assert 'Command "NotExist" not found.' in output(capsys)
+    with pytest.raises(SystemExit) as excinfo:
+        app.fire("NotExist")
+    assert "20" == str(excinfo.value)
+    assert 'Command "NotExist" not found.' in output(capsys)
 
     app.add_command(CommandContact)
-    try:
-        app.get_command("")
-    except SystemExit as e:
-        assert e.code == 10
-        assert "No command provided." in output(capsys)
+    cmd = app.get_command("")
+    assert cmd._name == "help"
 
-    try:
-        app.get_command("--option")
-    except SystemExit as e:
-        assert e.code == 10
-        assert "No command provided." in output(capsys)
+    app.add_command(CommandContact)
+    cmd = app.get_command("--option")
+    assert cmd._name == "help"
 
 
 def test_command_run(capsys):
     app = application.App()
     app.add_command(CommandContact)
-    app.launch("contact NAME")
+    app.fire("contact NAME")
     assert "Contact NAME " in output(capsys)
 
     argv = sys.argv
     try:
-        sys.argv = ["/tmp", "contact", "TEST_NAME"]
-        app.launch()
+        sys.argv = ["/tmp", "contact", "-v", "TEST_NAME"]
+        app = application.App()
+        app.add_command(CommandContact)
+        app.fire()
+        printed = output(capsys)
+        assert "Contact TEST_NAME with 18 years old" in printed
+        assert '"verbose" = True' in printed
     finally:
         sys.argv = argv
 
@@ -120,11 +124,10 @@ def test_command_argument(capsys):
     app = application.App()
     app.add_command(CommandContact)
 
-    try:
-        app.launch("contact")
-    except SystemExit as e:
-        assert e.code == 40
-        assert 'The argument "name" is required' in output(capsys)
+    with pytest.raises(SystemExit) as excinfo:
+        app.fire("contact")
+    assert "40" == str(excinfo.value)
+    assert 'The argument "name" is required' in output(capsys)
 
     cmd = app.get_command("contact")
     with pytest.raises(command.FieldException) as ex:
@@ -137,13 +140,13 @@ def test_command_argument(capsys):
         cmd.launch("contact --option=option_value")
     assert 'The argument "name" is required' == str(ex.value)
 
-    app.launch("contact NAME")
+    app.fire("contact NAME")
     assert "Contact NAME" in output(capsys)
-    app.launch("contact NAME --option")
+    app.fire("contact NAME --option")
     assert "Contact NAME" in output(capsys)
-    app.launch("contact NAME --option=option_value")
+    app.fire("contact NAME --option=option_value")
     assert "Contact NAME" in output(capsys)
-    app.launch("contact NAME")
+    app.fire("contact NAME")
     assert "Contact NAME" in output(capsys)
 
     cmd = app.get_command("contact")
@@ -289,14 +292,11 @@ def test_command_option_int_convert_error(capsys):
         cmd = app.get_command("contact")
         cmd.parse("contact NAME --int ONE")
 
-    try:
-        app.launch("contact NAME --int ONE")
-    except SystemExit as e:
-        assert e.code == 40
-        assert (
-            'The option "int_option" with he value "ONE" must be int'
-            in output(capsys)
-        )
+    with pytest.raises(SystemExit) as excinfo:
+        app.fire("contact NAME --int ONE")
+    assert "40" == str(excinfo.value)
+    msg = 'The option "int_option" with he value "ONE" must be int'
+    assert msg in output(capsys)
 
 
 def test_command_option_alias():
@@ -317,11 +317,10 @@ def test_command_option_alias_duplicate(capsys):
 
     app = application.App()
     app.add_command(CommandTest)
-    try:
-        app.launch("contact NAME -o")
-    except SystemExit as e:
-        assert e.code == 30
-        assert 'Duplicate option alias "o"' in output(capsys)
+    with pytest.raises(SystemExit) as excinfo:
+        app.fire("contact NAME -o")
+    assert "30" == str(excinfo.value)
+    assert 'Duplicate option alias "o"' in output(capsys)
 
 
 def test_command_option_global(capsys):
@@ -334,24 +333,33 @@ def test_command_option_global(capsys):
             default=False,
         )
 
-    app = application.App()
-    app.add_command(CommandTest)
-    app.add_option(
-        "verbose",
-        command.Field(
-            help="Verbose mode",
-            default=False,
-            alias=["v", "vv", "vvv"],
-        ),
-    )
-    app.add_option(
-        "user",
-        command.Field(
-            help="Username for tests",
-            default="ubuntu",
-            alias=["-u", "--username"],
-        ),
-    )
+        def fire(self):
+            pass
+
+    def get_test_app():
+        app = application.App()
+        app.add_command(CommandTest)
+        app.add_option(
+            "user",
+            command.Field(
+                help="Username for tests",
+                default="ubuntu",
+                alias=["-u", "--username"],
+            ),
+        )
+        return app
+
+    app = get_test_app()
+    with pytest.raises(command.CommandException) as excinfo:
+        app.add_option(
+            "verbose",
+            command.Field(
+                help="Verbose mode",
+                default=False,
+                alias=["v", "vv", "vvv"],
+            ),
+        )
+    assert 'Duplicate global option alias "v"' in str(excinfo.value)
     with pytest.raises(command.CommandException):
         app.add_option(
             "version",
@@ -361,20 +369,54 @@ def test_command_option_global(capsys):
                 alias=["-v"],
             ),
         )
-
     assert app.get_option("verbose") is False
+    assert app.get_option("user") == "ubuntu"
     assert app.get_option("not-exists", 99) == 99
     assert app.set_option("not-exists", 99) is False
+
+    app = get_test_app()
     cmd = app.get_command("test")
     cmd.parse("test -v -o")
     assert cmd.bool_option is True
     assert app.get_option("verbose") is True
     assert app.get_option("user") == "ubuntu"
+
+    app = get_test_app()
+    cmd = app.get_command("test")
     cmd.parse("test -v -o --user=root")
     assert cmd.bool_option is True
     assert app.get_option("verbose") is True
     assert app.get_option("user") == "root"
+
+    app = get_test_app()
+    app.add_command(CommandTest)
+    cmd = app.get_command("test")
     cmd.parse("test -v -o --user root")
     assert cmd.bool_option is True
     assert app.get_option("verbose") is True
     assert app.get_option("user") == "root"
+
+    output(capsys)
+    app = get_test_app()
+    app.add_command(CommandTest)
+    assert app.get_option("verbose") is False
+    app.fire("test -o")
+    assert app.get_option("verbose") is False
+    assert 'Global option "verbose" = True' not in output(capsys)
+    app.fire("test -v -o")
+    assert app.get_option("verbose") is True
+    assert 'Global option "verbose" = True' in output(capsys)
+
+
+def test_command_return_error_code(capsys):
+    class CommandTest(command.Command):
+        _name = "test"
+
+        def fire(self):
+            return 99
+
+    app = application.App()
+    app.add_command(CommandTest)
+    with pytest.raises(SystemExit) as excinfo:
+        app.fire("test")
+    assert excinfo.value.code == 99

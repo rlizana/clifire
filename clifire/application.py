@@ -3,29 +3,59 @@ import shlex
 import subprocess
 import sys
 
-from . import command, commands, out, result
+from clifire import command, commands, config, out, result, template
 
 
 class App:
+    current_app = None
+
     def __init__(
         self,
         name: str = "",
         version: str = "0.0.1 alpha",
         context: dict = None,
-        command_help=commands.CommandHelp,
-        command_version=commands.CommandVersion,
+        option_verbose: bool = True,
+        config_files: list = None,
+        config_create: bool = False,
+        command_help=commands.help.CommandHelp,
+        command_version=commands.version.CommandVersion,
+        template_folder=None,
     ):
+        App.current_app = self
         self.name = name
         self.version = version
+        self.options = {}
+        if option_verbose:
+            self._add_option_verbose()
         if context is None:
             context = {}
         self.context = context
-        self.options = {}
+        if config_files is None:
+            config_files = []
+        self.config = config.Config.get_config(
+            config_files, create=config_create, **context
+        )
         self.commands = {}
         if command_help:
             self.add_command(command_help)
         if command_version:
             self.add_command(command_version)
+        self.template = None
+        if template_folder:
+            self.template = template.Template(template_folder)
+
+    def _add_option_verbose(self):
+        self.add_option(
+            "verbose",
+            command.Field(
+                help="Verbose mode",
+                default=False,
+                alias="v",
+            ),
+        )
+        command_line = sys.argv[1:]
+        if "-v" in command_line or "--verbose" in command_line:
+            self.set_option("verbose", True)
 
     def add_option(self, name: str, field: command.Field):
         self.options[name] = [field, field.default]
@@ -58,29 +88,38 @@ class App:
         self.commands[cls._name] = cls
 
     def find_command(self, command_line: str):
+        empty = False
         args = [p for p in shlex.split(command_line) if not p.startswith("-")]
         if not args:
-            out.critical(10, "No command provided.")
+            args = ["help"]
+            empty = True
         while args:
             command_name = ".".join(args)
             if command_name in self.commands:
                 return self.commands[command_name]
             args.pop()
+        if empty:
+            out.critical(10, "No command provided.")
         return None
 
-    def get_command(self, command_line: str):
+    def get_command(self, command_line: str) -> command.Command:
         cls = self.find_command(command_line)
         if cls:
             return cls(self, command_line)
         args = [p for p in shlex.split(command_line) if not p.startswith("-")]
         out.critical(20, f'Command "{args[0]}" not found.')
 
-    def launch(self, command_line: str = None):
+    def fire(self, command_line: str = None):
         try:
             if command_line is None:
-                command_line = " ".join(sys.argv[1:])
+                out.debug(f"Sys argv value: {sys.argv}")
+                command_line = " ".join(
+                    shlex.quote(arg) for arg in sys.argv[1:]
+                )
             cmd = self.get_command(command_line)
-            return cmd.launch(command_line)
+            res = cmd.launch(command_line)
+            if isinstance(res, int) and res != 0:
+                sys.exit(res)
         except command.CommandException as e:
             out.critical(30, e)
         except command.FieldException as e:
@@ -93,6 +132,7 @@ class App:
         env: dict = None,
         path: str = None,
         shell: bool = True,
+        check: bool = False,
     ) -> result.Result:
         if path:
             os.chdir(path)
@@ -100,13 +140,20 @@ class App:
         if env:
             env_vars.update(env)
         try:
+            out.debug(f"Shell: {cmd}")
             proc = subprocess.run(
                 cmd if shell else shlex.split(cmd),
                 shell=shell,
                 capture_output=capture_output,
                 env=env_vars,
-                check=False,
+                check=check,
             )
             return result.Result(proc.returncode, proc.stdout, proc.stderr)
         except subprocess.CalledProcessError as e:
             return result.ResultError(e.stderr, e.returncode)
+
+    def path(self, *args) -> str:
+        exapnd_path = os.path.join(
+            *(a.replace("~", os.path.expanduser("~")) for a in args)
+        )
+        return os.path.abspath(exapnd_path)

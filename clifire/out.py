@@ -10,7 +10,8 @@ from rich.table import Table
 
 CONSOLE = Console()
 COLOR_NORMAL = "white"
-COLOR_DEBUG = "cyan"
+COLOR_DEBUG = "grey50"
+COLOR_DEBUG2 = "bright_black"
 COLOR_INFO = "blue"
 COLOR_SUCCESS = "green"
 COLOR_WARN = "yellow"
@@ -86,6 +87,7 @@ def table(
     border: bool = True,
     show_header: bool = True,
     style_cols: Dict[str, str] = None,
+    padding: tuple = None,
 ):
     if not data:
         return
@@ -94,6 +96,8 @@ def table(
     if not border:
         tbl.box = None
         tbl.padding = (0, 2)
+    if padding is not None:
+        tbl.padding = padding
     for key in keys:
         justify = "right" if isinstance(data[0][key], (int, float)) else "left"
         tbl.add_column(
@@ -139,5 +143,21 @@ def critical(code: int, text: str) -> None:
     sys.exit(code)
 
 
+def _debug(text: str, color: str) -> None:
+    from clifire import application
+
+    app = application.App.current_app
+    if not app or app.get_option("verbose"):
+        _print(text, color)
+
+
 def debug(text: str) -> None:
-    _print(text, COLOR_DEBUG)
+    _debug(text, COLOR_DEBUG)
+
+
+def debug2(text: str) -> None:
+    _debug(f"· {text}", COLOR_DEBUG2)
+
+
+def var_dump(var) -> None:
+    CONSOLE.print(var, highlight=True)

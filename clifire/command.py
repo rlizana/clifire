@@ -1,5 +1,66 @@
+import inspect
+import re
 import shlex
 from typing import List, Optional, Union
+
+from clifire import out
+
+
+def get_current_app():
+    from clifire import application
+
+    return application.App.current_app
+
+
+def fire(func):
+    def wrapper(*args, **kwargs):
+        cmd = args[0]
+        signature = inspect.signature(func)
+        for arg in list(signature.parameters.keys())[1:]:
+            var = arg[1:] if arg.startswith("_") else arg
+            if hasattr(cmd, var):
+                kwargs[arg] = getattr(cmd, var)
+        return func(*args, **kwargs)
+
+    command_name = getattr(func, "_command_name", func.__name__)
+    command_name = re.sub(r"([A-Z_])", ".", command_name).lower()
+    class_name = "".join(
+        word.capitalize() for word in command_name.split(".") if word
+    )
+    doc = (func.__doc__ or "").strip()
+    attrs = {
+        "_name": command_name,
+        "_help": doc.splitlines()[0],
+        "fire": wrapper,
+    }
+    signature = inspect.signature(func)
+    pos = 0
+    helps = {k: [] for k in list(signature.parameters.keys())[1:]}
+    doc = [d.strip() for d in doc.splitlines() if d]
+    current_help = False
+    while doc:
+        line = doc.pop(0)
+        parts = line.split(":")
+        if parts[0] in helps:
+            current_help = parts[0]
+            line = parts[1]
+        if not current_help:
+            continue
+        helps[current_help].append(line.strip())
+    for name, param in list(signature.parameters.items())[1:]:
+        pos += 1
+        var_name = name[1:] if name.startswith("_") else name
+        attrs[var_name] = Field(
+            pos=None if name.startswith("_") else pos,
+            help=" ".join(helps.get(name, "")),
+            default=param._default,
+            force_type=param._annotation,
+            alias=[var_name[0]],
+        )
+    class_command = type(class_name, (Command,), attrs)
+    app = get_current_app()
+    app.add_command(class_command)
+    return wrapper
 
 
 class Field:
@@ -17,7 +78,7 @@ class Field:
         alias = [] if alias is None else alias
         self.alias = [alias] if isinstance(alias, str) else alias
         self.default = default
-        self.is_option = bool(pos is False)
+        self.is_option = bool(pos is False or pos is None)
         self.is_required = default is None
         if force_type is None:
             if self.default is not None:
@@ -95,14 +156,17 @@ class Command:
                 setattr(self, name, field.default)
 
     def _parse_command_line(self, command_line: str):
+        out.debug(f"Parse command line: {command_line}")
         arguments = []
         self.command_line = shlex.split(command_line)
         parts = self.command_line.copy()
-        parts = parts[len(self._name.split(".")) :]
+        remove_parts = len(self._name.split("."))
         while parts:
             part = parts.pop(0)
             if not part.startswith("-"):
-                arguments.append(part)
+                remove_parts -= 1
+                if remove_parts < 0:
+                    arguments.append(part)
                 continue
             option = part[2:] if part.startswith("--") else part[1:]
             name, value = (
@@ -118,7 +182,9 @@ class Command:
                     field, _value = self.app.options[name]
                 if not value and field.type != bool:
                     value = parts.pop(0)
-                self.app.set_option(name, field.convert(value))
+                value = field.convert(value)
+                self.app.set_option(name, value)
+                out.debug2(f'Global option "{name}" = {value}')
                 continue
             field = self._options[name]
             if isinstance(field, str):
@@ -126,30 +192,38 @@ class Command:
                 field = self._options[name]
             if not value and field.type != bool:
                 value = parts.pop(0)
-            setattr(self, name, field.convert(value))
+            value = field.convert(value)
+            out.debug2(f'Option "{name}" = {value}')
+            setattr(self, name, value)
         arg_names = self._argument_names.copy()
         for index, argument in enumerate(arguments):
             if not arg_names:
                 break
             name = arg_names.pop(0)
             if self._fields[name].type == list:
+                out.debug2(f'Argument "{name}" = {arguments[index:]}')
                 setattr(self, name, arguments[index:])
                 break
-            setattr(self, name, self._fields[name].convert(argument))
+            value = self._fields[name].convert(argument)
+            out.debug2(f'Argument "{name}" = {value}')
+            setattr(self, name, value)
 
     def parse(self, command_line: str):
         self._parse_command_line(command_line)
         self._fields_check()
 
     def launch(self, command_line: str):
+        out.debug(f"Launching command '{self._name}'")
         self.parse(command_line)
+        out.debug(f"Init command '{self._name}'")
         self.init()
-        self.run()
+        out.debug(f"Running command '{self._name}'")
+        return self.fire()
 
     def init(self):
         pass
 
-    def run(self):
+    def fire(self):
         raise NotImplementedError
 
 

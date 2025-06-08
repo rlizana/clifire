@@ -1,4 +1,3 @@
-from .help import CommandHelp
-from .version import CommandVersion
+from clifire.commands import help, version
 
-__all__ = ["CommandHelp", "CommandVersion"]
+__all__ = ["help", "version"]

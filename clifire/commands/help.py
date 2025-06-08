@@ -3,7 +3,7 @@ from .. import command, out
 
 class CommandHelp(command.Command):
     _name = "help"
-    _help = "Show this help or help for a command"
+    _help = "Show this help"
 
     command = command.Field(
         pos=1,
@@ -32,7 +32,7 @@ class CommandHelp(command.Command):
             for n in cmd._argument_names
         ]
         cmd_name = cmd._name.replace(".", " ")
-        self.print(f'  [cyan]{cmd_name}[/cyan] [[options]] {" ".join(args)}')
+        self.print(f'  [cyan]{cmd_name}[/cyan] \[options] {" ".join(args)}')
         self.print("")
 
     def print_arguments(self, cmd):
@@ -100,19 +100,32 @@ class CommandHelp(command.Command):
         self.print("")
 
     def print_commands(self):
-        data = [
-            {"name": cls._name, "help": self.get_help(cls)}
-            for cls in self.app.commands.values()
-            if "." not in cls._name
-        ]
+        groups = {}
+        for cls in self.app.commands.values():
+            parts = cls._name.split(".")
+            group = " ".join(parts[:-1])
+            groups.setdefault(group, []).append(
+                {
+                    "name": cls._name.replace(".", " "),
+                    "help": self.get_help(cls),
+                }
+            )
+
         title = "Available Commands:"
         self.print(f"[bold]{title}[/bold]")
-        out.table(
-            data, border=False, show_header=False, style_cols={"name": "cyan"}
-        )
+        for key in sorted(groups.keys()):
+            if key:
+                self.print(f"\n  [green]{key}[/green]")
+            out.table(
+                groups[key],
+                border=False,
+                show_header=False,
+                style_cols={"name": "cyan"},
+                padding=(0, 3) if key else None,
+            )
         self.print("")
 
-    def run(self):
+    def fire(self):
         cmd = self.app.get_command(" ".join(self.command))
         self.print_description(cmd)
         self.print_usage(cmd)

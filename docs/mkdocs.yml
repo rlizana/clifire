@@ -1,0 +1,88 @@
+site_name: CliFire
+site_description: Minimal CLI framework to build Python commands quickly and elegantly
+site_url: https://github.com/rlizana/clifire
+repo_url: https://github.com/rlizana/clifire
+repo_name: rlizana/clifire
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  logo: assets/logo.svg
+  favicon: assets/favicon.png
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.expand
+    - navigation.indexes
+    - content.code.annotate
+    - palette.custom
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+extra_css:
+  - assets/lintux.css
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+
+plugins:
+  - search
+  - i18n:
+      default_language: es
+      languages:
+        - locale: es
+          name: Español
+          build: true
+          default: true
+          nav:
+            - Inicio: es/index.md
+            - Guía Rápida: es/quick-start.md
+            - Guía de Usuario:
+              - Conceptos Básicos: es/user-guide/basics.md
+              - Decoradores: es/user-guide/decorators.md
+              - Clases: es/user-guide/classes.md
+              - Opciones y Argumentos: es/user-guide/options-arguments.md
+              - Comandos Agrupados: es/user-guide/grouped-commands.md
+              - Salida y Estilos: es/user-guide/output.md
+              - Configuración: es/user-guide/config.md
+              - Plantillas: es/user-guide/templates.md
+            - Cómo Contribuir: es/contributing.md
+            - Registro de Cambios: es/changelog.md
+
+        - locale: en
+          name: English
+          build: true
+          nav:
+            - Home: en/index.md
+            - Quick Start: en/getting-started.md
+            - User Guide:
+              - Basics: en/user-guide/basics.md
+              - Decorators: en/user-guide/decorators.md
+              - Classes: en/user-guide/classes.md
+              - Options and Arguments: en/user-guide/options-arguments.md
+              - Grouped Commands: en/user-guide/grouped-commands.md
+              - Output and Styling: en/user-guide/output.md
+              - Configuration: en/user-guide/config.md
+              - Templates: en/user-guide/templates.md
+            - Contributing: en/contributing.md
+            - Changelog: en/changelog.md

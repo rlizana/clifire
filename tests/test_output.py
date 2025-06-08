@@ -1,9 +1,16 @@
 import time
 from io import StringIO
 
+import pytest
 from rich.console import Console
 
-from clifire import out
+from clifire import application, out
+
+
+@pytest.fixture(autouse=True)
+def reset_current_app():
+    application.App.current_app = None
+    yield
 
 
 def output(capsys):
@@ -32,11 +39,10 @@ def test_error(capsys):
 
 
 def test_critical(capsys):
-    try:
+    with pytest.raises(SystemExit) as excinfo:
         out.critical(99, "Critical sample message")
-    except SystemExit as e:
-        assert e.code == 99
-        assert "Critical sample message\n" == output(capsys)
+    assert "99" == str(excinfo.value)
+    assert "Critical sample message\n" == output(capsys)
 
 
 def test_debug(capsys):
@@ -120,13 +126,39 @@ def test_table(capsys):
     assert "My title" in printed
     assert "Is student" in printed
     assert "│" not in printed
+    assert "Elizabeth" in printed
 
     out.table(data, border=True, title="My title")
     printed = output(capsys)
     assert "My title" in printed
     assert "Is student" in printed
     assert "│" in printed
+    assert "│ Elizabeth │" in printed
+
+    out.table(data, border=True, padding=(0, 0))
+    printed = output(capsys)
+    assert "│Elizabeth│" in printed
 
     out.table([])
     printed = output(capsys)
     assert "" == printed
+
+
+def test_var_dump(capsys):
+    out.var_dump([1, 2, 3, 4])
+    assert "[1, 2, 3, 4]" in output(capsys)
+
+    out.var_dump(
+        {
+            "number": 1,
+            "list": ["a", "b", "c"],
+            "dict": {
+                "key a": "value a",
+                "key b": "value b",
+            },
+        }
+    )
+    printed = output(capsys)
+    assert "\n    'number': 1," in printed
+    assert "\n    'list': ['a', 'b', 'c']," in printed
+    assert "\n    'dict': {'key a': 'value a'," in printed

@@ -5,5 +5,5 @@ class CommandVersion(command.Command):
     _name = "version"
     _help = "Display project version"
 
-    def run(self):
+    def fire(self):
         out.info(f"{self.app.name} {self.app.version}")
