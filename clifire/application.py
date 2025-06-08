@@ -118,7 +118,7 @@ class App:
                 )
             cmd = self.get_command(command_line)
             res = cmd.launch(command_line)
-            if isinstance(res, int) and res != 0:
+            if type(res) is int and res != 0:
                 sys.exit(res)
         except command.CommandException as e:
             out.critical(30, e)
