@@ -74,7 +74,7 @@ plugins:
           build: true
           nav:
             - Home: en/index.md
-            - Quick Start: en/getting-started.md
+            - Quick Start: en/quick-start.md
             - User Guide:
               - Basics: en/user-guide/basics.md
               - Decorators: en/user-guide/decorators.md
