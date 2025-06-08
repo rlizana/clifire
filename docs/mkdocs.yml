@@ -53,7 +53,6 @@ plugins:
         - locale: es
           name: Español
           build: true
-          default: true
           nav:
             - Inicio: es/index.md
             - Guía Rápida: es/quick-start.md
@@ -72,6 +71,7 @@ plugins:
         - locale: en
           name: English
           build: true
+          default: true
           nav:
             - Home: en/index.md
             - Quick Start: en/quick-start.md
