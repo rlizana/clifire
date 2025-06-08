@@ -1,4 +1,4 @@
-# CliFire
+# ![CliFire Logo](docs/docs/assets/logo-for-readme.svg) CliFire
 
 [![pre-commit Status](https://github.com/rlizana/clifire/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/rlizana/clifire/actions/workflows/pre-commit.yml)
 [![Test Status](https://github.com/rlizana/clifire/actions/workflows/test.yml/badge.svg)](https://github.com/rlizana/clifire/actions/workflows/test.yml)

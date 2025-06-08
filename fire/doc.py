@@ -75,3 +75,13 @@ def doc_record(cmd, filename: str, _force: bool = False):
     out.success(f"File SVG created in {file_svg}")
     out.info("You can use it in doc with:")
     out.info(f"![{filename.title()}](assets/records/{filename}.svg)")
+
+
+@command.fire
+def doc_publish(cmd):
+    """
+    Publish docs in https://rlizana.github.io/clifire
+    """
+    bash = "mkdocs gh-deploy"
+    cmd.app.shell(
+        bash, path="./docs", shell=True, check=True, capture_output=False)

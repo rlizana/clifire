@@ -1,6 +1,6 @@
-site_name: CliFire
+site_name: CliFire Documentation
 site_description: Minimal CLI framework to build Python commands quickly and elegantly
-site_url: https://github.com/rlizana/clifire
+site_url: https://rlizana.github.io/clifire
 repo_url: https://github.com/rlizana/clifire
 repo_name: rlizana/clifire
 
