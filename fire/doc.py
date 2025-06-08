@@ -84,4 +84,5 @@ def doc_publish(cmd):
     """
     bash = "mkdocs gh-deploy"
     cmd.app.shell(
-        bash, path="./docs", shell=True, check=True, capture_output=False)
+        bash, path="./docs", shell=True, check=True, capture_output=False
+    )
