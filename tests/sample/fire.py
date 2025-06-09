@@ -16,3 +16,8 @@ def hello(cmd, user: str = "", _sudo: bool = False):
         sudo = "sudo" if _sudo else ""
         user = cmd.app.shell(f"{sudo} whoami").stdout
     out.info(f"Hi {user}!")
+
+
+@command.fire
+def nodoc(cmd):
+    out.info("Command without doc")

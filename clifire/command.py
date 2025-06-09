@@ -30,7 +30,7 @@ def fire(func):
     doc = (func.__doc__ or "").strip()
     attrs = {
         "_name": command_name,
-        "_help": doc.splitlines()[0],
+        "_help": doc.splitlines()[0] if doc.splitlines() else doc,
         "fire": wrapper,
     }
     signature = inspect.signature(func)
