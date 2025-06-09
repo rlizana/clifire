@@ -1,9 +1,9 @@
 import getpass
 import importlib
+import sys
 
 from clifire import application
 from tests.test_output import output
-import sys
 
 
 def get_app():
