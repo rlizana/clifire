@@ -33,18 +33,18 @@ def doc_record(cmd, filename: str, _force: bool = False):
     result = cmd.app.shell("which asciinema")
     if not result.stdout:
         out.warn("You can install with `apt install asciinema`")
-        out.critical(1, "`asciinema` not found.")
+        out.critical("`asciinema` not found.")
     result = cmd.app.shell("which svg-term")
     if not result.stdout:
         out.warn("You can install with `npm install -g svg-term-cli`")
-        out.critical(2, "`svg-term` not found.")
+        out.critical("`svg-term` not found.", code=2)
 
     file_cast = cmd.app.path(f"./docs/docs/assets/records/{filename}.cast")
     if os.path.exists(file_cast) and _force is True:
         os.remove(file_cast)
     if os.path.exists(file_cast):
         msg = "File cast already exists, you can use --force for overwrite"
-        out.critical(3, msg)
+        out.critical(msg, code=3)
     out.info(f"Record file in {file_cast}")
 
     file_svg = cmd.app.path(f"./docs/docs/assets/records/{filename}.svg")
@@ -52,7 +52,7 @@ def doc_record(cmd, filename: str, _force: bool = False):
         os.remove(file_svg)
     if os.path.exists(file_svg):
         msg = "File SVG already exists, you can use --force for overwrite"
-        out.critical(3, msg)
+        out.critical(msg, code=4)
 
     args = ""
     shell = os.environ.get("SHELL")

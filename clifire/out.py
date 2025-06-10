@@ -138,7 +138,7 @@ def error(text: str) -> None:
     _print(text, COLOR_ERROR)
 
 
-def critical(code: int, text: str) -> None:
+def critical(text: str, code: int = 1) -> None:
     error(text)
     sys.exit(code)
 

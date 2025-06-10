@@ -40,7 +40,11 @@ def test_error(capsys):
 
 def test_critical(capsys):
     with pytest.raises(SystemExit) as excinfo:
-        out.critical(99, "Critical sample message")
+        out.critical("Critical sample message 1")
+    assert "1" == str(excinfo.value)
+    assert "Critical sample message 1\n" == output(capsys)
+    with pytest.raises(SystemExit) as excinfo:
+        out.critical("Critical sample message", 99)
     assert "99" == str(excinfo.value)
     assert "Critical sample message\n" == output(capsys)
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "CliFire"
-version = "0.1.1"
+version = "0.1.2"
 description = "Minimal CLI framework to build Python commands quickly and elegantly."
 authors = ["Roberto Lizana <rober.lizana@gmail.com>"]
 readme = "README.md"

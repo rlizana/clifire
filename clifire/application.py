@@ -99,7 +99,7 @@ class App:
                 return self.commands[command_name]
             args.pop()
         if empty:
-            out.critical(10, "No command provided.")
+            out.critical("No command provided.", code=10)
         return None
 
     def get_command(self, command_line: str) -> command.Command:
@@ -107,7 +107,7 @@ class App:
         if cls:
             return cls(self, command_line)
         args = [p for p in shlex.split(command_line) if not p.startswith("-")]
-        out.critical(20, f'Command "{args[0]}" not found.')
+        out.critical(f'Command "{args[0]}" not found.', code=20)
 
     def fire(self, command_line: str = None):
         try:
@@ -121,9 +121,9 @@ class App:
             if type(res) is int and res != 0:
                 sys.exit(res)
         except command.CommandException as e:
-            out.critical(30, e)
+            out.critical(e, code=30)
         except command.FieldException as e:
-            out.critical(40, e)
+            out.critical(e, code=40)
 
     def shell(
         self,
