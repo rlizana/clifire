@@ -4,10 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.2] - 2025-06-10
+## [0.1.3] - 2025-06-11
 
 ### Added
 - Add `cancel` method in out.LiveText for canceling the live text output.
+
+### Changed
+
+### Fixed
+- Fixed the decorator `@fire.command` to correctly handle commands without a docstring.
+
+### Removed
+
+## [0.1.2] - 2025-06-10
+
+### Added
 
 ### Changed
 - Change `out.critical` by default error code is 1
