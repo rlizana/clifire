@@ -34,7 +34,8 @@ class LiveText:
 
     def _start(self):
         with Live(
-            console=CONSOLE, refresh_per_second=self.refresh_per_second
+            console=CONSOLE, refresh_per_second=self.refresh_per_second,
+            # transient=True
         ) as live:
             self._live = live
             self._live.update(self._text)
@@ -59,6 +60,10 @@ class LiveText:
         self._running = False
         if self._thread:
             self._thread.join()
+
+    def cancel(self):
+        self._live.transient = True
+        self.stop()
 
     def info(self, text: str, end=False):
         self._text = text_color(text, color=COLOR_INFO)

@@ -76,6 +76,9 @@ def test_live_text():
     time.sleep(0.5)
     assert "Success message" in out.ansi_clean(buffer.getvalue())
     out.CONSOLE = original_console
+    assert live._running is True
+    live.cancel()
+    assert live._running is False
 
 
 def test_live_text_threading():

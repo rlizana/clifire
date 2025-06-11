@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.1.2] - 2025-06-10
 
 ### Added
+- Add `cancel` method in out.LiveText for canceling the live text output.
 
 ### Changed
 - Change `out.critical` by default error code is 1
