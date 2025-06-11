@@ -34,7 +34,8 @@ class LiveText:
 
     def _start(self):
         with Live(
-            console=CONSOLE, refresh_per_second=self.refresh_per_second,
+            console=CONSOLE,
+            refresh_per_second=self.refresh_per_second,
             # transient=True
         ) as live:
             self._live = live
