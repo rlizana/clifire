@@ -17,7 +17,6 @@ def test_main_block(monkeypatch, capsys):
     for key in list(sys.modules.keys()):
         if key.startswith("tests.sample."):
             del sys.modules[key]
-    # import_module("tests.sample.out")
     runpy.run_module("tests.sample.out", run_name="__main__")
     assert "Show a message text with info style." in output(capsys)
 

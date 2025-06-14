@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.4] - 2025-06-14
+
+### Added
+- Add searching in parent directories for the `fire` command.
+
+### Changed
+- Converted the `shell` and `path` methods of the `Application` class to class methods.
+
+### Fixed
+- Fixed an execution issue when loading a command with the `@fire.command` decorator and the command does not have a `__doc__` attribute.
+
+### Removed
+
 ## [0.1.3] - 2025-06-11
 
 ### Added
@@ -27,7 +40,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixed the decorator `@fire.command` to correctly handle commands without a docstring.
 
 ### Removed
-
 
 ## [0.1.1] - 2025-06-07
 

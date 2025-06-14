@@ -1,8 +1,12 @@
 import getpass
 import importlib
+import os
 import sys
+from contextlib import contextmanager
 
-from clifire import application
+import pytest
+
+from clifire import application, main
 from tests.test_output import output
 
 
@@ -41,3 +45,52 @@ def test_fire_without_doc(capsys):
     app = get_app()
     app.fire("nodoc")
     assert "Command without doc" in output(capsys)
+
+
+@contextmanager
+def in_path(*args):
+    cwd = os.getcwd()
+    os.chdir(application.App.path(os.path.dirname(__file__), *args))
+    try:
+        yield
+    finally:
+        os.chdir(cwd)
+
+
+def test_fire_main(capsys):
+    with in_path("sample"):
+        main.main("nodoc")
+        assert "Command without doc" in output(capsys)
+
+
+def test_fire_not_found_in_parents(capsys):
+    temp_dir = os.getenv("TMPDIR") or "/tmp"
+    assert os.path.isdir(temp_dir)
+    with in_path(temp_dir):
+        with pytest.raises(SystemExit):
+            main.main("nodoc")
+        assert "Command without doc" not in output(capsys)
+
+
+def test_fire_find_file_py_in_parents(capsys):
+    with in_path("sample", "parent"):
+        main.main("nodoc")
+        assert "Command without doc" in output(capsys)
+    with in_path("sample", "parent_fire", "child"):
+        main.main("nodoc")
+        assert "Command without doc" in output(capsys)
+    with in_path("sample", "parent_fire", "child", "grandson"):
+        main.main("nodoc")
+        assert "Command without doc" in output(capsys)
+
+
+def test_fire_find_folder_in_parents(capsys):
+    with in_path("sample", "parent_fire"):
+        main.main("nodoc")
+        assert "Command without doc" in output(capsys)
+    with in_path("sample", "parent_fire", "child"):
+        main.main("nodoc")
+        assert "Command without doc" in output(capsys)
+    with in_path("sample", "parent_fire", "child", "grandson"):
+        main.main("nodoc")
+        assert "Command without doc" in output(capsys)

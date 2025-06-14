@@ -14,9 +14,9 @@ class CommandHelp(command.Command):
     def print(self, txt):
         out._print(txt)
 
-    def get_help(self, cmd):
+    def get_help(self, cmd) -> str:
         lines = (cmd._help or cmd.__doc__ or "").strip().splitlines()
-        return lines[0]
+        return lines[0] if lines else ""
 
     def print_description(self, cmd):
         title = "Description:"
