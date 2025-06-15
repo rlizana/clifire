@@ -41,6 +41,18 @@
       "program": "${workspaceFolder}/tests/sample/out.py",
       "args": ["help", "info ask"],
       "console": "integratedTerminal"
-    }
+    },
+    {
+      "name": "Debug Fire Command",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/sample/fire_debug.py",
+      "cwd": "${workspaceFolder}/tests/sample/",
+      "args": ["help"],
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    },
   ]
 }

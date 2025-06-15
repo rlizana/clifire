@@ -107,7 +107,15 @@ class App:
         if cls:
             return cls(self, command_line)
         args = [p for p in shlex.split(command_line) if not p.startswith("-")]
-        out.critical(f'Command "{args[0]}" not found.', code=20)
+        while args:
+            group = ".".join(args + [""])
+            commands = [k for k in self.commands.keys() if k.startswith(group)]
+            if commands:
+                cls = self.find_command("help")
+                if cls:
+                    return cls(self, command_line)
+            last_arg = args.pop()
+        out.critical(f'Command "{last_arg}" not found.', code=20)
 
     def fire(self, command_line: str = None):
         try:
@@ -125,8 +133,9 @@ class App:
         except command.FieldException as e:
             out.critical(e, code=40)
 
+    @classmethod
     def shell(
-        self,
+        cls,
         cmd: str,
         capture_output: bool = True,
         env: dict = None,
@@ -152,7 +161,10 @@ class App:
         except subprocess.CalledProcessError as e:
             return result.ResultError(e.stderr, e.returncode)
 
-    def path(self, *args) -> str:
+    @classmethod
+    def path(cls, *args: list[str]) -> str:
+        if len(args) == 0:
+            args = (os.getcwd(),)
         exapnd_path = os.path.join(
             *(a.replace("~", os.path.expanduser("~")) for a in args)
         )

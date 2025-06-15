@@ -16,6 +16,20 @@ def test_command_help(capsys):
     assert "help" in printed
 
 
+def test_command_help_without_help(capsys):
+    class CommandTest(command.Command):
+        _name = "test_no_help"
+
+    app = application.App()
+    app.add_command(CommandTest)
+    cmd = app.get_command("test_no_help")
+    assert cmd._name == "test_no_help"
+    assert cmd._help is None
+    app.fire("help test_no_help")
+    printed = output(capsys)
+    assert "test_no_help" in printed
+
+
 def test_command_help_without_arguments(capsys):
     class CommandTest(command.Command):
         _name = "test"

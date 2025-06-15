@@ -53,6 +53,8 @@ def test_shell_called_process_error():
 
 
 def test_path():
+    assert application.App.path("/tmp") == "/tmp"
+
     app = application.App()
     assert app.path("/tmp") == "/tmp"
     assert app.path("/tmp", "test", "file.txt") == "/tmp/test/file.txt"
@@ -64,3 +66,5 @@ def test_path():
     assert app.path("~/folder1", "folder2", "file.txt") == os.path.join(
         home, "folder1", "folder2", "file.txt"
     )
+
+    assert app.path() == os.getcwd()

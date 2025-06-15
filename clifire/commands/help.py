@@ -14,9 +14,9 @@ class CommandHelp(command.Command):
     def print(self, txt):
         out._print(txt)
 
-    def get_help(self, cmd):
+    def get_help(self, cmd) -> str:
         lines = (cmd._help or cmd.__doc__ or "").strip().splitlines()
-        return lines[0]
+        return lines[0] if lines else ""
 
     def print_description(self, cmd):
         title = "Description:"
@@ -99,30 +99,41 @@ class CommandHelp(command.Command):
         )
         self.print("")
 
-    def print_commands(self):
+    def print_commands(self, cmd):
         groups = {}
+        group_name = (
+            "" if self.command == ["help"] else ".".join(self.command + [""])
+        )
         for cls in self.app.commands.values():
-            parts = cls._name.split(".")
+            name = cls._name
+            if group_name:
+                if not name.startswith(group_name):
+                    continue
+                name = name[len(group_name) :]
+            parts = name.split(".")
             group = " ".join(parts[:-1])
             groups.setdefault(group, []).append(
                 {
-                    "name": cls._name.replace(".", " "),
+                    "name": name.replace(".", " "),
                     "help": self.get_help(cls),
                 }
             )
-
+        if not groups:
+            return
         title = "Available Commands:"
         self.print(f"[bold]{title}[/bold]")
+        data = []
         for key in sorted(groups.keys()):
-            if key:
-                self.print(f"\n  [green]{key}[/green]")
-            out.table(
-                groups[key],
-                border=False,
-                show_header=False,
-                style_cols={"name": "cyan"},
-                padding=(0, 3) if key else None,
-            )
+            if key and key != cmd._name:
+                data.append({"name": f"\n[green]{key}[/green]", "help": ""})
+            data += groups[key]
+        out.table(
+            data,
+            border=False,
+            show_header=False,
+            style_cols={"name": "cyan"},
+            padding=(0, 2) if key else None,
+        )
         self.print("")
 
     def fire(self):
@@ -132,5 +143,4 @@ class CommandHelp(command.Command):
         self.print_arguments(cmd)
         self.print_options(cmd)
         self.print_options_global()
-        if cmd._name == "help":
-            self.print_commands()
+        self.print_commands(cmd)

@@ -30,14 +30,28 @@ def load_file(filename):
     return module
 
 
-def main():
+def main(command_line: str = None):
     app = application.App(name="CliFire", version="1.0")
-    out.debug("Search commands in ./fire folder")
-    load(os.path.join(os.getcwd(), "fire"))
-    out.debug("Search commands in ./file.py file")
-    load(os.path.join(os.getcwd(), "fire.py"))
-    app.fire()
-
-
-if __name__ == "__main__":
-    main()
+    current_dir = os.getcwd()
+    out.debug(f"Search commands in {current_dir} folder and parents")
+    loaded = False
+    while True:
+        fire_folder = os.path.join(current_dir, "fire")
+        if load(fire_folder):
+            loaded = True
+            break
+        fire_file = os.path.join(current_dir, "fire.py")
+        if load(fire_file):
+            loaded = True
+            break
+        parent_dir = os.path.dirname(current_dir)
+        if parent_dir == current_dir:
+            break
+        current_dir = parent_dir
+    if not loaded:
+        out.warn(
+            "The file fire.py or folder fire is not in this directory or its "
+            "parents"
+        )
+        out.critical("Fire not found!")
+    app.fire(command_line)
