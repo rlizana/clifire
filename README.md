@@ -68,16 +68,16 @@ For more details, see our [Quick Start Guide](https://rlizana.github.io/clifire/
 
 The full documentation is available on GitHub Pages in [English](https://rlizana.github.io/clifire/en) and [Spanish](https://rlizana.github.io/clifire/es/es). It covers topics such as:
 
-- [CliFire Basics](https://rlizana.github.io/clifire/en/user-guide/basics.md)
-- [Decorators](https://rlizana.github.io/clifire/en/user-guide/decorators.md)
-- [Class-based Commands](https://rlizana.github.io/clifire/en/user-guide/classes.md)
-- [Options and Arguments](https://rlizana.github.io/clifire/en/user-guide/options-arguments.md)
-- [Grouped Commands](https://rlizana.github.io/clifire/en/user-guide/grouped-commands.md)
-- [Output and Styling](https://rlizana.github.io/clifire/en/user-guide/output.md)
-- [Configuration](https://rlizana.github.io/clifire/en/user-guide/config.md)
-- [Templates](https://rlizana.github.io/clifire/en/user-guide/templates.md)
-- [Changelog](https://rlizana.github.io/clifire/en/changelog.md)
-- [Contributing](https://rlizana.github.io/clifire/en/contributing.md)
+- [CliFire Basics](https://rlizana.github.io/clifire/en/user-guide/basics)
+- [Decorators](https://rlizana.github.io/clifire/en/user-guide/decorators)
+- [Class-based Commands](https://rlizana.github.io/clifire/en/user-guide/classes)
+- [Options and Arguments](https://rlizana.github.io/clifire/en/user-guide/options-arguments)
+- [Grouped Commands](https://rlizana.github.io/clifire/en/user-guide/grouped-commands)
+- [Output and Styling](https://rlizana.github.io/clifire/en/user-guide/output)
+- [Configuration](https://rlizana.github.io/clifire/en/user-guide/config)
+- [Templates](https://rlizana.github.io/clifire/en/user-guide/templates)
+- [Changelog](https://rlizana.github.io/clifire/en/changelog)
+- [Contributing](https://rlizana.github.io/clifire/en/contributing)
 
 ## Development
 
