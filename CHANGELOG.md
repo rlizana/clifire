@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Add searching in parent directories for the `fire` command.
+- Display help with available commands when a recognized group name is entered.
 
 ### Changed
 - Converted the `shell` and `path` methods of the `Application` class to class methods.

@@ -21,3 +21,35 @@ def hello(cmd, user: str = "", _sudo: bool = False):
 @command.fire
 def nodoc(cmd):
     out.info("Command without doc")
+
+
+@command.fire
+def ab(cmd):
+    """
+    doc_ab
+    """
+    out.info("def_ab")
+
+
+@command.fire
+def ab_cd(cmd):
+    """
+    doc_ab_cd
+    """
+    out.info("def_ab_cd")
+
+
+@command.fire
+def ab_ef_gh(cmd):
+    """
+    doc_ab_ef_gh
+    """
+    out.info("def_ab_ef_gh")
+
+
+@command.fire
+def zz_command(cmd):
+    """
+    doc_zz_command
+    """
+    out.info("def_zz_command")

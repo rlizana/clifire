@@ -94,3 +94,47 @@ def test_fire_find_folder_in_parents(capsys):
     with in_path("sample", "parent_fire", "child", "grandson"):
         main.main("nodoc")
         assert "Command without doc" in output(capsys)
+
+
+def test_fire_group_help(capsys):
+    app = get_app()
+
+    app.fire("help")
+    printed = output(capsys)
+    assert "Available Commands:" in printed
+    assert " cd " in printed
+    assert " ef " in printed
+    assert " ef gh " in printed
+    assert "doc_ab_cd" in printed
+    assert "doc_ab_ef_gh" in printed
+
+    app.fire("help ab")
+    printed = output(capsys)
+    assert "Available Commands:" in printed
+    assert "doc_ab" in printed
+    assert "doc_ab_cd" in printed
+    assert "ef gh" in printed
+    assert "doc_ab_ef_gh" in printed
+
+    app.fire("help ab ef")
+    printed = output(capsys)
+    assert "ab ef" not in printed
+    assert "doc_ab_ef_gh" in printed
+
+    app.fire("help zz")
+    assert "Available Commands:" in output(capsys)
+
+    app.fire("help zz command")
+    assert "Available Commands:" not in output(capsys)
+
+    app.fire("ab")
+    assert "def_ab" in output(capsys)
+
+    app.fire("ab cd")
+    assert "def_ab_cd" in output(capsys)
+
+    app.fire("ab ef gh")
+    assert "def_ab_ef_gh" in output(capsys)
+
+    app.fire("zz command")
+    assert "def_zz_command" in output(capsys)

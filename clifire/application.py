@@ -107,7 +107,15 @@ class App:
         if cls:
             return cls(self, command_line)
         args = [p for p in shlex.split(command_line) if not p.startswith("-")]
-        out.critical(f'Command "{args[0]}" not found.', code=20)
+        while args:
+            group = ".".join(args + [""])
+            commands = [k for k in self.commands.keys() if k.startswith(group)]
+            if commands:
+                cls = self.find_command("help")
+                if cls:
+                    return cls(self, command_line)
+            last_arg = args.pop()
+        out.critical(f'Command "{last_arg}" not found.', code=20)
 
     def fire(self, command_line: str = None):
         try:
