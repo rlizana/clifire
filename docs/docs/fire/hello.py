@@ -2,14 +2,15 @@ from clifire import command, out
 
 
 @command.fire
-def greet(cmd, name: str = "World", _end_char: str = "?"):
+def hello(cmd, user: str = "", _sudo: bool = False):
     """
-    Greets the user.
+    Display a greeting on the console.
 
     Args:
-        name: Name of the user to greet. Defaults to "World".
-        _end_char: Character to use at the end of the greeting. Defaults to "?".
+        user: Name of the user to greet. If empty, the current system user is used.
+        _sudo: Run the command with sudo privileges.
     """
-    result = cmd.app.shell("whoami")
-    out.info(f"System user: {result.stdout}")
-    out.success(f"Hello {name}{_end_char}")
+    if not user:
+        sudo = "sudo" if _sudo else ""
+        user = cmd.app.shell(f"{sudo} whoami").stdout
+    out.info(f"Hi {user}!")

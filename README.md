@@ -62,6 +62,10 @@ Then run:
 fire hello Rob
 ```
 
+In action:
+![Demo](./docs/docs/assets/records/quick_start_hello.svg)
+
+
 For more details, see our [Quick Start Guide](https://rlizana.github.io/clifire/en/quick-start.md).
 
 ## Documentation
