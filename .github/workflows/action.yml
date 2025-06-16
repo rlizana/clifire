@@ -1,0 +1,70 @@
+name: pre-commit
+
+on: [push, pull_request]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Rye
+      run: |
+        curl -sSf https://rye.astral.sh/get | bash
+        echo "$HOME/.rye/shims" >> $GITHUB_PATH
+      env:
+        RYE_TOOLCHAIN_VERSION: '3.12'
+        RYE_VERSION: '0.44.0'
+        RYE_INSTALL_OPTION: '--yes'
+
+    - name: Install dependencies
+      run: |
+        rye sync --all-features
+
+    - name: Run pre-commit
+      run: rye run pre-commit run --all-files
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Rye
+      run: |
+        curl -sSf https://rye.astral.sh/get | bash
+        echo "$HOME/.rye/shims" >> $GITHUB_PATH
+      env:
+        RYE_TOOLCHAIN_VERSION: '3.12'
+        RYE_VERSION: '0.44.0'
+        RYE_INSTALL_OPTION: '--yes'
+
+    - name: Install dependencies
+      run: |
+        rye sync --all-features
+
+    - name: Run unit tests
+      run: rye run coverage run -m pytest
+
+    - name: Generate coverage report
+      run: rye run coverage xml
+
+    - name: Upload coverage to Coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      run: |
+        pip install coveralls
+        coveralls

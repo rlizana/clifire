@@ -55,3 +55,7 @@ def main(command_line: str = None):
         )
         out.critical("Fire not found!")
     app.fire(command_line)
+
+
+if __name__ == "__main__":
+    main()

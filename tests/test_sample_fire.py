@@ -1,6 +1,7 @@
 import getpass
 import importlib
 import os
+import runpy
 import sys
 from contextlib import contextmanager
 
@@ -17,6 +18,14 @@ def get_app():
     app = application.App()
     importlib.import_module(module_name)
     return app
+
+
+def test_main_block(monkeypatch, capsys):
+    monkeypatch.setattr(sys, "argv", ["clifire/main.py", "help"])
+    if "clifire.main" in sys.modules:
+        del sys.modules["clifire.main"]
+    runpy.run_module("clifire.main", run_name="__main__")
+    assert "Show this help" in output(capsys)
 
 
 def test_fire_command(capsys):
