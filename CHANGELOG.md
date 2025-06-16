@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 ### Changed
+- Switched the package manager from `poetry` to `rye`, which is lighter and faster.
 
 ### Fixed
 - Add `pyyaml` lib  to pyproject.toml dependencies.

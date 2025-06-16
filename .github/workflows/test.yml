@@ -18,7 +18,44 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install poetry
+        pip install poetry        name: test
+
+        on: [push, pull_request]
+
+        jobs:
+          test:
+            runs-on: ubuntu-latest
+
+            steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.12'
+
+            - name: Install Rye
+              run: |
+                curl -sSf https://rye-up.com/get | bash
+                echo "$HOME/.rye/shims" >> $GITHUB_PATH
+
+            - name: Install dependencies
+              run: |
+                rye sync --no-lock
+
+            - name: Run unit tests
+              run: rye run coverage run -m pytest
+
+            - name: Generate coverage report
+              run: rye run coverage xml
+
+            - name: Upload coverage to Coveralls
+              env:
+                COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+              run: |
+                pip install coveralls
+                coveralls
         poetry install --with dev
 
     - name: Run unit tests
