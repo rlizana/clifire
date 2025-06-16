@@ -8,7 +8,7 @@ def doc_build(cmd):
     """
     Build the docs
     """
-    bash = "poetry run mkdocs build"
+    bash = "rye run mkdocs build"
     cmd.app.shell(bash, path="./docs", capture_output=False)
 
 
@@ -17,7 +17,7 @@ def doc_serve(cmd):
     """
     Serve the docs
     """
-    bash = "poetry run mkdocs serve"
+    bash = "rye run mkdocs serve"
     cmd.app.shell(bash, path="./docs", capture_output=False)
 
 

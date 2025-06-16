@@ -34,6 +34,12 @@ Or with Poetry:
 poetry add clifire
 ```
 
+Or with rye:
+
+```bash
+rye add clifire
+```
+
 ## Quick Start
 
 Create a simple CLI command using decorators. For example, save the following as `fire/hello.py`:
@@ -85,6 +91,13 @@ The full documentation is available on GitHub Pages in [English](https://rlizana
 
 ## Development
 
+CliFire is an open-source project, and contributions are welcome! If you find a bug, have a feature request, or want to contribute improvements, please open an issue or submit a pull request.
+
+> For development, we use [Rye](https://rye.astral.sh), a Python environment and dependency manager. Rye makes it easy to install dependencies and manage virtual environments. If you don't have it installed, you can follow the instructions on their [website](https://rye.astral.sh).
+```bash
+curl -sSf https://rye.astral.sh/get | bash
+```
+
 To contribute to CliFire:
 
 1. **Fork the repository** on GitHub.
@@ -98,14 +111,21 @@ To contribute to CliFire:
    git checkout -b feature/my-feature
    ```
 4. **Install development dependencies**:
+   If you are using [Rye](https://rye-up.com/), you can install the development dependencies with:
+
    ```bash
-   poetry install --with dev
+   rye install --with dev
    ```
 5. **Run tests** to ensure everything works:
    ```bash
-   poetry run pytest
+   rye run pytest
    # or to check coverage:
-   poetry run coverage run -m pytest && poetry run coverage html
+   rye run coverage run -m pytest && rye run coverage html
+   ```
+
+   You can also use the `fire coverage` command to run the tests and generate the coverage report:
+   ```bash
+   rye run fire coverage
    ```
 6. **Update the CHANGELOG.md** with your changes.
 7. **Commit and push** your changes, and then create a pull request.
