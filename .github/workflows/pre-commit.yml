@@ -17,8 +17,9 @@ jobs:
 
     - name: Install Rye
       run: |
-        curl -sSf https://rye.astral.sh/get | bash -s -- -y
-        echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        curl -sSf https://rye.astral.sh/get \
+          | RYE_INSTALL_OPTION="--yes" RYE_TOOLCHAIN_VERSION="3.12" bash
+        echo "$HOME/.rye/env" >> $GITHUB_PATH
 
     - name: Install dependencies
       run: |
