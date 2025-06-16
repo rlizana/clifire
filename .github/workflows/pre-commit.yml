@@ -3,7 +3,7 @@ name: pre-commit
 on: [push, pull_request]
 
 jobs:
-  build:
+  pre-commit:
     runs-on: ubuntu-latest
 
     steps:
