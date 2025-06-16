@@ -19,12 +19,11 @@ jobs:
       run: |
         curl -sSf https://rye.astral.sh/get \
           | RYE_INSTALL_OPTION="--yes" RYE_TOOLCHAIN_VERSION="3.12" bash
-        echo "$HOME/.rye/env" >> $GITHUB_PATH
+        echo "source $HOME/.rye/env" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: |
         rye sync --no-lock
-        rye install --no-lock pre-commit
 
     - name: Run pre-commit
       run: rye run pre-commit run --all-files
