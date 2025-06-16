@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "CliFire"
-version = "0.1.4"
+version = "0.1.5"
 description = "Minimal CLI framework to build Python commands quickly and elegantly."
 authors = ["Roberto Lizana <rober.lizana@gmail.com>"]
 readme = "README.md"
@@ -11,6 +11,7 @@ packages = [{include = "clifire"}]
 python = "^3.10"
 rich = "^14.0.0"
 jinja2 = "^3.1.6"
+pyyaml = "^6.0.2"
 
 
 [tool.poetry.group.dev.dependencies]
