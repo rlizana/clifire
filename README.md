@@ -1,6 +1,6 @@
 # ![CliFire Logo](docs/docs/assets/logo-for-readme.svg) CliFire
 
-[![CI/CD Status](https://github.com/rlizana/clifire/actions/workflows/actions.yml/badge.svg)](https://github.com/rlizana/clifire/actions/workflows/pre-commit.yml)
+[![CI Status](https://github.com/rlizana/clifire/actions/workflows/actions.yml/badge.svg)](https://github.com/rlizana/clifire/actions/workflows/actions.yml)
 [![Coverage Status](https://coveralls.io/repos/github/rlizana/clifire/badge.svg?branch=main)](https://coveralls.io/github/rlizana/clifire?branch=main)
 [![PyPI version](https://badge.fury.io/py/clifire.svg)](https://badge.fury.io/py/clifire)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
