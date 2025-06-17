@@ -2,28 +2,28 @@ import re
 import sys
 import threading
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 from rich.console import Console
 from rich.live import Live
 from rich.table import Table
 
 CONSOLE = Console()
-COLOR_NORMAL = "white"
-COLOR_DEBUG = "grey50"
-COLOR_DEBUG2 = "bright_black"
-COLOR_INFO = "blue"
-COLOR_SUCCESS = "green"
-COLOR_WARN = "yellow"
-COLOR_ERROR = "red"
+COLOR_NORMAL = 'white'
+COLOR_DEBUG = 'grey50'
+COLOR_DEBUG2 = 'bright_black'
+COLOR_INFO = 'blue'
+COLOR_SUCCESS = 'green'
+COLOR_WARN = 'yellow'
+COLOR_ERROR = 'red'
 
 
 class LiveText:
-    def __init__(self, text: str = "", refresh_per_second: int = 10):
+    def __init__(self, text: str = '', refresh_per_second: int = 10):
         self._live = None
         self._running = False
         self._thread = None
-        self._text = ""
+        self._text = ''
         self.refresh_per_second = refresh_per_second
         self.info(text)
         self.start()
@@ -44,7 +44,7 @@ class LiveText:
             while self._running:
                 elapsed_time = time.time() - start_time
                 display_message = (
-                    f"[grey0]({elapsed_time: .1f}s)[/grey0] {self._text}"
+                    f'[grey0]({elapsed_time: .1f}s)[/grey0] {self._text}'
                 )
                 self._live.update(display_message)
                 time.sleep(1 / self.refresh_per_second)
@@ -88,11 +88,11 @@ class LiveText:
 
 
 def table(
-    data: List[Dict[str, Any]],
-    title: str = "",
+    data: list[dict[str, Any]],
+    title: str = '',
     border: bool = True,
     show_header: bool = True,
-    style_cols: Dict[str, str] = None,
+    style_cols: dict[str, str] = None,
     padding: tuple = None,
 ):
     if not data:
@@ -105,23 +105,23 @@ def table(
     if padding is not None:
         tbl.padding = padding
     for key in keys:
-        justify = "right" if isinstance(data[0][key], (int, float)) else "left"
+        justify = 'right' if isinstance(data[0][key], (int, float)) else 'left'
         tbl.add_column(
-            key.replace("_", " ").capitalize(),
+            key.replace('_', ' ').capitalize(),
             justify=justify,
-            style=style_cols.get(key, "") if style_cols else None,
+            style=style_cols.get(key, '') if style_cols else None,
         )
     for row in data:
-        tbl.add_row(*(str(row.get(key, "")) for key in keys))
+        tbl.add_row(*(str(row.get(key, '')) for key in keys))
     CONSOLE.print(tbl)
 
 
 def ansi_clean(text: str) -> str:
-    return re.sub(r"\x1B\[[0-?]*[ -/]*[@-~]", "", text)
+    return re.sub(r'\x1B\[[0-?]*[ -/]*[@-~]', '', text)
 
 
 def text_color(text: str, color: str = COLOR_NORMAL) -> str:
-    return f"[{color}]{text}[/{color}]"
+    return f'[{color}]{text}[/{color}]'
 
 
 def _print(text: str, color: str = COLOR_NORMAL) -> None:
@@ -153,7 +153,7 @@ def _debug(text: str, color: str) -> None:
     from clifire import application
 
     app = application.App.current_app
-    if not app or app.get_option("verbose"):
+    if not app or app.get_option('verbose'):
         _print(text, color)
 
 
@@ -162,7 +162,7 @@ def debug(text: str) -> None:
 
 
 def debug2(text: str) -> None:
-    _debug(f"· {text}", COLOR_DEBUG2)
+    _debug(f'· {text}', COLOR_DEBUG2)
 
 
 def var_dump(var) -> None:

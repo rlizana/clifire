@@ -1,6 +1,6 @@
 [project]
 name = "CliFire"
-version = "0.1.5"
+version = "0.1.6"
 description = "Minimal CLI framework to build Python commands quickly and elegantly."
 authors = [
     { name = "Roberto Lizana", email = "rober.lizana@gmail.com" }
@@ -9,24 +9,25 @@ packages = [{include = "clifire"}]
 readme = "README.md"
 requires-python = ">= 3.10"
 dependencies = [
-    "rich>=14.0.0",
     "jinja2>=3.1.6",
     "pyyaml>=6.0.2",
+    "rich>=14.0.0",
 ]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling==1.26.3"]  # Without a version spec, hatchling==1.27.0 is used which fails to publish. Ref: https://github.com/astral-sh/rye/issues/1446#issuecomment-2545154562
 build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
 dev-dependencies = [
-    "pytest>=8.4.0",
     "coverage>=7.9.1",
-    "pre-commit>=4.2.0",
-    "mkdocs>=1.6.1",
     "mkdocs-material>=9.6.14",
     "mkdocs-static-i18n>=1.3.0",
+    "mkdocs>=1.6.1",
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.0",
+    "black-with-tabs>=22.10.0",
 ]
 
 [tool.hatch.metadata]
@@ -37,6 +38,15 @@ packages = ["clifire"]
 
 [tool.rye.scripts]
 fire = 'python -m clifire.main'
+
+[tool.black]
+line-length = 79
+target-version = ["py310"]
+skip-string-normalization = true
+
+[flake8]
+inline-quotes = "'"
+docstring-quotes = "'"
 
 [project.scripts]
 fire = "clifire.main:main"

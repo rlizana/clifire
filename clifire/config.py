@@ -10,19 +10,19 @@ class Config:
     def get_config(cls, files: list, create: bool = False, **kwargs):
         def path(*args) -> str:
             exapnd_path = os.path.join(
-                *(a.replace("~", os.path.expanduser("~")) for a in args)
+                *(a.replace('~', os.path.expanduser('~')) for a in args)
             )
             return os.path.abspath(exapnd_path)
 
         for file in files:
             config_file = path(file)
-            out.debug(f"Try read config file {config_file}")
+            out.debug(f'Try read config file {config_file}')
             if os.path.exists(config_file):
-                out.debug2("Exists, reading...")
+                out.debug2('Exists, reading...')
                 config = Config(config_file=config_file, **kwargs)
                 config.read()
                 return config
-            out.debug2("Not exist")
+            out.debug2('Not exist')
         if files:
             file = path(files[0])
             config = Config(config_file=config_file, **kwargs)
@@ -45,19 +45,19 @@ class Config:
         return self.__str__()
 
     def _safe_dict(self, data_dict: dict):
-        return {k: v for k, v in data_dict.items() if not k.startswith("_")}
+        return {k: v for k, v in data_dict.items() if not k.startswith('_')}
 
     def read(self):
         if not os.path.exists(self._config_file):
             return False
-        with open(self._config_file, "r", encoding="utf-8") as file:
+        with open(self._config_file, encoding='utf-8') as file:
             self.__dict__.update(self._safe_dict(yaml.safe_load(file) or {}))
         return True
 
     def write(self):
-        out.debug(f"Write config file {self._config_file}")
+        out.debug(f'Write config file {self._config_file}')
         config_dir = os.path.dirname(self._config_file)
         if not os.path.exists(config_dir):
             os.makedirs(config_dir)
-        with open(self._config_file, "w", encoding="utf-8") as file:
+        with open(self._config_file, 'w', encoding='utf-8') as file:
             yaml.safe_dump(self._safe_dict(self.__dict__), file)

@@ -11,29 +11,29 @@ class Template:
         )
 
     def render(self, template, **args):
-        args["os"] = os
+        args['os'] = os
         return self.jinja2.get_template(template).render(**args)
 
     def write(self, template, filename, mark=None, **args):
         template_content = self.render(template, **args)
 
         if not mark:
-            with open(filename, "w") as file:
+            with open(filename, 'w') as file:
                 file.write(template_content)
             return template_content
 
-        content = ""
+        content = ''
         if os.path.exists(filename):
-            with open(filename, "r") as file:
+            with open(filename) as file:
                 content = file.read()
         mark_escaped = re.escape(mark)
-        pattern = f"({mark_escaped})[\\s\\S]*?\\1"
+        pattern = f'({mark_escaped})[\\s\\S]*?\\1'
         if re.search(pattern, content):
             content = re.sub(
-                pattern, f"{mark}\n{template_content}\n{mark}", content
+                pattern, f'{mark}\n{template_content}\n{mark}', content
             )
         else:
-            content += f"\n{mark}\n{template_content}\n{mark}\n"
-        with open(filename, "w") as file:
+            content += f'\n{mark}\n{template_content}\n{mark}\n'
+        with open(filename, 'w') as file:
             file.write(content)
         return content

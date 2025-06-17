@@ -11,8 +11,8 @@ class App:
 
     def __init__(
         self,
-        name: str = "",
-        version: str = "0.0.1 alpha",
+        name: str = '',
+        version: str = '0.0.1 alpha',
         context: dict = None,
         option_verbose: bool = True,
         config_files: list = None,
@@ -46,23 +46,23 @@ class App:
 
     def _add_option_verbose(self):
         self.add_option(
-            "verbose",
+            'verbose',
             command.Field(
-                help="Verbose mode",
+                help='Verbose mode',
                 default=False,
-                alias="v",
+                alias='v',
             ),
         )
         command_line = sys.argv[1:]
-        if "-v" in command_line or "--verbose" in command_line:
-            self.set_option("verbose", True)
+        if '-v' in command_line or '--verbose' in command_line:
+            self.set_option('verbose', True)
 
     def add_option(self, name: str, field: command.Field):
         self.options[name] = [field, field.default]
         for alias in field.alias:
-            if alias.startswith("-"):
-                alias = alias[2:] if alias.startswith("--") else alias[1:]
-            alias = alias.replace("-", "_")
+            if alias.startswith('-'):
+                alias = alias[2:] if alias.startswith('--') else alias[1:]
+            alias = alias.replace('-', '_')
             if alias in self.options:
                 raise command.CommandException(
                     f'Duplicate global option alias "{alias}"'
@@ -83,35 +83,35 @@ class App:
     def add_command(self, cls: command.Command):
         if not cls._name:
             raise command.CommandException(
-                f"The command {cls} has no name, please set _name var in class"
+                f'The command {cls} has no name, please set _name var in class'
             )
         self.commands[cls._name] = cls
 
     def find_command(self, command_line: str):
         empty = False
-        args = [p for p in shlex.split(command_line) if not p.startswith("-")]
+        args = [p for p in shlex.split(command_line) if not p.startswith('-')]
         if not args:
-            args = ["help"]
+            args = ['help']
             empty = True
         while args:
-            command_name = ".".join(args)
+            command_name = '.'.join(args)
             if command_name in self.commands:
                 return self.commands[command_name]
             args.pop()
         if empty:
-            out.critical("No command provided.", code=10)
+            out.critical('No command provided.', code=10)
         return None
 
     def get_command(self, command_line: str) -> command.Command:
         cls = self.find_command(command_line)
         if cls:
             return cls(self, command_line)
-        args = [p for p in shlex.split(command_line) if not p.startswith("-")]
+        args = [p for p in shlex.split(command_line) if not p.startswith('-')]
         while args:
-            group = ".".join(args + [""])
+            group = '.'.join(args + [''])
             commands = [k for k in self.commands.keys() if k.startswith(group)]
             if commands:
-                cls = self.find_command("help")
+                cls = self.find_command('help')
                 if cls:
                     return cls(self, command_line)
             last_arg = args.pop()
@@ -120,10 +120,8 @@ class App:
     def fire(self, command_line: str = None):
         try:
             if command_line is None:
-                out.debug(f"Sys argv value: {sys.argv}")
-                command_line = " ".join(
-                    shlex.quote(arg) for arg in sys.argv[1:]
-                )
+                out.debug(f'Sys argv value: {sys.argv}')
+                command_line = shlex.join(sys.argv[1:])
             cmd = self.get_command(command_line)
             res = cmd.launch(command_line)
             if type(res) is int and res != 0:
@@ -149,7 +147,7 @@ class App:
         if env:
             env_vars.update(env)
         try:
-            out.debug(f"Shell: {cmd}")
+            out.debug(f'Shell: {cmd}')
             proc = subprocess.run(
                 cmd if shell else shlex.split(cmd),
                 shell=shell,
@@ -166,6 +164,6 @@ class App:
         if len(args) == 0:
             args = (os.getcwd(),)
         exapnd_path = os.path.join(
-            *(a.replace("~", os.path.expanduser("~")) for a in args)
+            *(a.replace('~', os.path.expanduser('~')) for a in args)
         )
         return os.path.abspath(exapnd_path)
