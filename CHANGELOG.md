@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Code style changes and improvements: switched double quotes `"` to single quotes `'` in strings.
 - Code style changes and improvements: added to pre-commit to update the main version based on `pyproject.toml`.
+- Code style changes and improvements: move `clifire` package to `src` directory for better package structure.
 
 ### Fixed
 - Fixed badge in README.md for the CI GitHub Actions workflow.

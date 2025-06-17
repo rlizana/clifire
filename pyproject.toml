@@ -5,7 +5,7 @@ description = "Minimal CLI framework to build Python commands quickly and elegan
 authors = [
     { name = "Roberto Lizana", email = "rober.lizana@gmail.com" }
 ]
-packages = [{include = "clifire"}]
+packages = ["src"]
 readme = "README.md"
 requires-python = ">= 3.10"
 dependencies = [
@@ -34,10 +34,10 @@ dev-dependencies = [
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["clifire"]
+packages = ["src/clifire"]
 
 [tool.rye.scripts]
-fire = 'python -m clifire.main'
+fire = 'python -m src.clifire.main'
 
 [tool.black]
 line-length = 79

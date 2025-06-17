@@ -1,7 +1,6 @@
 import sys
 
 import pytest
-
 from clifire import application, command, out
 
 
