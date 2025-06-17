@@ -31,7 +31,7 @@ def load_file(filename):
 
 
 def main(command_line: str = None):
-    app = application.App(name='CliFire', version='0.1.5')
+    app = application.App(name='CliFire', version='0.1.6')
     current_dir = os.getcwd()
     out.debug(f'Search commands in {current_dir} folder and parents')
     loaded = False

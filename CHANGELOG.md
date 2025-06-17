@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.5] - 2025-06-??
+## [0.1.6] - 2025-06-??
 
 ### Added
 
@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Code style changes and improvements: added to pre-commit to update the main version based on `pyproject.toml`.
 
 ### Fixed
+- Fixed badge in README.md for the CI GitHub Actions workflow.
 
 ### Removed
 
