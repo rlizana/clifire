@@ -1,7 +1,6 @@
 import inspect
 import re
 import shlex
-from typing import List, Optional, Union
 
 from clifire import out
 
@@ -17,21 +16,21 @@ def fire(func):
         cmd = args[0]
         signature = inspect.signature(func)
         for arg in list(signature.parameters.keys())[1:]:
-            var = arg[1:] if arg.startswith("_") else arg
+            var = arg[1:] if arg.startswith('_') else arg
             if hasattr(cmd, var):
                 kwargs[arg] = getattr(cmd, var)
         return func(*args, **kwargs)
 
-    command_name = getattr(func, "_command_name", func.__name__)
-    command_name = re.sub(r"([A-Z_])", ".", command_name).lower()
-    class_name = "".join(
-        word.capitalize() for word in command_name.split(".") if word
+    command_name = getattr(func, '_command_name', func.__name__)
+    command_name = re.sub(r'([A-Z_])', '.', command_name).lower()
+    class_name = ''.join(
+        word.capitalize() for word in command_name.split('.') if word
     )
-    doc = (func.__doc__ or "").strip()
+    doc = (func.__doc__ or '').strip()
     attrs = {
-        "_name": command_name,
-        "_help": doc.splitlines()[0] if doc.splitlines() else doc,
-        "fire": wrapper,
+        '_name': command_name,
+        '_help': doc.splitlines()[0] if doc.splitlines() else doc,
+        'fire': wrapper,
     }
     signature = inspect.signature(func)
     pos = 0
@@ -40,7 +39,7 @@ def fire(func):
     current_help = False
     while doc:
         line = doc.pop(0)
-        parts = line.split(":")
+        parts = line.split(':')
         if parts[0] in helps:
             current_help = parts[0]
             line = parts[1]
@@ -49,10 +48,10 @@ def fire(func):
         helps[current_help].append(line.strip())
     for name, param in list(signature.parameters.items())[1:]:
         pos += 1
-        var_name = name[1:] if name.startswith("_") else name
+        var_name = name[1:] if name.startswith('_') else name
         attrs[var_name] = Field(
-            pos=None if name.startswith("_") else pos,
-            help=" ".join(helps.get(name, "")),
+            pos=None if name.startswith('_') else pos,
+            help=' '.join(helps.get(name, '')),
             default=param._default,
             force_type=param._annotation,
             alias=[var_name[0]],
@@ -67,12 +66,12 @@ class Field:
     def __init__(
         self,
         pos: int = False,
-        help: str = "",
+        help: str = '',
         default: str = None,
-        alias: Optional[Union[str, List[str]]] = None,
+        alias: str | list[str] | None = None,
         force_type: type = None,
     ):
-        self.name = "unknow"
+        self.name = 'unknow'
         self.pos = pos
         self.help = help
         alias = [] if alias is None else alias
@@ -92,7 +91,7 @@ class Field:
     def convert(self, value):
         try:
             if self.type == list:
-                return value.split(",")
+                return value.split(',')
             elif self.type == bool and value is None:
                 return True if self.default is None else not self.default
             return self.type(value)
@@ -104,21 +103,21 @@ class Field:
 class FieldException(Exception):
     def __init__(self, field: Field, msg: str):
         self.field = field
-        field_type = "option" if self.field.is_option else "argument"
+        field_type = 'option' if self.field.is_option else 'argument'
         super().__init__(f'The {field_type} "{field.name}" {msg}')
 
 
 class Command:
-    _name = ""
+    _name = ''
     _help = None
 
-    def __init__(self, app, command_line: str = ""):
+    def __init__(self, app, command_line: str = ''):
         self._fields = {}
         self._argument_names = []
         self._options = {}
         self.app = app
         self._fields_update()
-        self.command_line = ""
+        self.command_line = ''
 
     @property
     def context(self):
@@ -140,9 +139,9 @@ class Command:
                 continue
             self._options[name] = field
             for alias in field.alias:
-                if alias.startswith("-"):
-                    alias = alias[2:] if alias.startswith("--") else alias[1:]
-                alias = alias.replace("-", "_")
+                if alias.startswith('-'):
+                    alias = alias[2:] if alias.startswith('--') else alias[1:]
+                alias = alias.replace('-', '_')
                 if alias in self._options:
                     raise CommandException(f'Duplicate option alias "{alias}"')
                 self._options[alias] = name
@@ -152,27 +151,27 @@ class Command:
             value = getattr(self, name)
             if isinstance(value, Field):
                 if field.is_required:
-                    raise FieldException(field, "is required")
+                    raise FieldException(field, 'is required')
                 setattr(self, name, field.default)
 
     def _parse_command_line(self, command_line: str):
-        out.debug(f"Parse command line: {command_line}")
+        out.debug(f'Parse command line: {command_line}')
         arguments = []
         self.command_line = shlex.split(command_line)
         parts = self.command_line.copy()
-        remove_parts = len(self._name.split("."))
+        remove_parts = len(self._name.split('.'))
         while parts:
             part = parts.pop(0)
-            if not part.startswith("-"):
+            if not part.startswith('-'):
                 remove_parts -= 1
                 if remove_parts < 0:
                     arguments.append(part)
                 continue
-            option = part[2:] if part.startswith("--") else part[1:]
+            option = part[2:] if part.startswith('--') else part[1:]
             name, value = (
-                option.split("=", 1) if "=" in option else (option, None)
+                option.split('=', 1) if '=' in option else (option, None)
             )
-            name = name.replace("-", "_")
+            name = name.replace('-', '_')
             if name not in self._options:
                 if name not in self.app.options:
                     continue
@@ -213,11 +212,11 @@ class Command:
         self._fields_check()
 
     def launch(self, command_line: str):
-        out.debug(f"Launching command '{self._name}'")
+        out.debug(f'Launching command "{self._name}"')
         self.parse(command_line)
-        out.debug(f"Init command '{self._name}'")
+        out.debug(f'Init command "{self._name}"')
         self.init()
-        out.debug(f"Running command '{self._name}'")
+        out.debug(f'Running command "{self._name}"')
         return self.fire()
 
     def init(self):
