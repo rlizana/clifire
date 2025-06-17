@@ -2,6 +2,7 @@ import runpy
 import sys
 
 from clifire import out
+
 from tests.sample.out import app
 
 

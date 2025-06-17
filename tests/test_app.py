@@ -3,7 +3,6 @@ import subprocess
 from unittest.mock import patch
 
 import pytest
-
 from clifire import application, out
 
 

@@ -6,8 +6,8 @@ import sys
 from contextlib import contextmanager
 
 import pytest
-
 from clifire import application, main
+
 from tests.test_output import output
 
 

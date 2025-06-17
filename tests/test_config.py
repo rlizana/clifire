@@ -3,7 +3,6 @@ import tempfile
 
 import pytest
 import yaml
-
 from clifire import config
 
 

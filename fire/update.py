@@ -16,7 +16,7 @@ def update_version(cmd):
         out.critical(f'Version not detected {pyproject_path}')
     version = match.group(1)
     out.debug(f'Version "{version}" in {pyproject_path}')
-    with open(cmd.app.path('clifire/main.py')) as f:
+    with open(cmd.app.path('src/clifire/main.py')) as f:
         content = f.read()
     new_content = re.sub(
         r'app = application\.App\('
@@ -26,7 +26,7 @@ def update_version(cmd):
         content,
     )
     if new_content != content:
-        with open(cmd.app.path('clifire/main.py'), 'w') as f:
+        with open(cmd.app.path('src/clifire/main.py'), 'w') as f:
             f.write(new_content)
         out.success(f'Update the version to {version}')
     else:
