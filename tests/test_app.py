@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 from unittest.mock import patch
 
 import pytest
@@ -9,6 +10,25 @@ from clifire import application, out
 def output(capsys):
     captured = capsys.readouterr()
     return out.ansi_clean(captured.out)
+
+
+def test_app_global_option_no_ansi(capsys):
+    app = application.App(name='sample', version='1.0.99')
+    assert app.get_option('no_ansi') is False
+    app.fire('help -v')
+    assert 'Console output setup with ANSI' in output(capsys)
+
+    app.fire('help --no-ansi -v')
+    assert 'Console output setup with no ANSI' in output(capsys)
+    assert app.get_option('no_ansi') is True
+
+    argv = sys.argv
+    try:
+        sys.argv = ['/tmp', 'help', '--no-ansi']
+        app = application.App()
+        assert app.get_option('no_ansi') is True
+    finally:
+        sys.argv = argv
 
 
 def test_app_no_command_provided(capsys):
@@ -24,10 +44,10 @@ def test_shell():
     res = app.shell('pwd')
     assert res.stdout in __file__
 
-    path = os.path.dirname(__file__)
-    assert os.getcwd() != path
-    res = app.shell('pwd', path=path)
-    assert res.stdout == path
+    test_path = os.path.dirname(__file__)
+    assert os.getcwd() != test_path
+    res = app.shell('pwd', path=test_path)
+    assert res.stdout == test_path
 
     res = app.shell('echo $MY_ENV_VALUE', env={'MY_ENV_VALUE': 'is_ok!'})
     assert 'is_ok!' in res.stdout
@@ -35,6 +55,17 @@ def test_shell():
     res = app.shell('this command not exist!')
     assert not res.stdout
     assert res.stderr
+
+    pwd = os.getcwd()
+    res = app.shell('pwd')
+    assert res.stdout == pwd
+    res = app.shell('pwd', path=app.path(test_path, 'sample'))
+    assert pwd == os.getcwd()
+    assert res.stdout != pwd
+    assert 'tests/sample' in res.stdout
+    res = app.shell('pwd')
+    assert res.stdout == pwd
+    assert 'tests/sample' not in res.stdout
 
 
 def test_shell_called_process_error():

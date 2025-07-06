@@ -56,70 +56,87 @@ def test_debug(capsys):
 def test_live_text():
     buffer = StringIO()
     original_console = out.CONSOLE
-    out.CONSOLE = Console(
-        file=buffer, force_terminal=True, color_system='truecolor'
-    )
-    live = out.LiveText('First message')
-    time.sleep(0.5)
-    assert 'First message' in out.ansi_clean(buffer.getvalue())
-    live.info('Info message')
-    time.sleep(0.5)
-    assert 'Info message' in out.ansi_clean(buffer.getvalue())
-    live.warn('Warn message')
-    time.sleep(0.5)
-    assert 'Warn message' in out.ansi_clean(buffer.getvalue())
-    live.error('Error message', end=False)
-    time.sleep(0.5)
-    assert 'Error message' in out.ansi_clean(buffer.getvalue())
-    live.success('Success message', end=False)
-    time.sleep(0.5)
-    assert 'Success message' in out.ansi_clean(buffer.getvalue())
-    out.CONSOLE = original_console
+    try:
+        out.CONSOLE = Console(
+            file=buffer, force_terminal=True, color_system='truecolor'
+        )
+        live = out.LiveText('First message')
+        time.sleep(0.5)
+        assert 'First message' in out.ansi_clean(buffer.getvalue())
+        live.info('Info message')
+        time.sleep(0.5)
+        assert 'Info message' in out.ansi_clean(buffer.getvalue())
+        live.warn('Warn message')
+        time.sleep(0.5)
+        assert 'Warn message' in out.ansi_clean(buffer.getvalue())
+        live.error('Error message', end=False)
+        time.sleep(0.5)
+        assert 'Error message' in out.ansi_clean(buffer.getvalue())
+        live.success('Success message', end=False)
+        time.sleep(0.5)
+        assert 'Success message' in out.ansi_clean(buffer.getvalue())
+    finally:
+        out.CONSOLE = original_console
     assert live._running is True
     live.cancel()
     assert live._running is False
 
 
+def test_live_concurrent():
+    buffer = StringIO()
+    original_console = out.CONSOLE
+    try:
+        out.CONSOLE = Console(
+            file=buffer, force_terminal=True, color_system='truecolor'
+        )
+        live_1 = out.live('First message')
+        live_2 = out.live('Second message')
+        assert live_1 == live_2
+    finally:
+        out.CONSOLE = original_console
+
+
 def test_live_text_threading():
     buffer = StringIO()
     original_console = out.CONSOLE
-    out.CONSOLE = Console(
-        file=buffer, force_terminal=True, color_system='truecolor'
-    )
+    try:
+        out.CONSOLE = Console(
+            file=buffer, force_terminal=True, color_system='truecolor'
+        )
 
-    live = out.LiveText('First message')
-    assert live.is_alive is True
-    live.stop()
-    assert live.is_alive is False
-    live.start()
-    assert live.is_alive is True
-    live.start()
-    assert live.is_alive is True
-    live.stop()
-    assert live.is_alive is False
+        live = out.LiveText('First message')
+        assert live.is_alive is True
+        live.stop()
+        assert live.is_alive is False
+        live.start()
+        assert live.is_alive is True
+        live.start()
+        assert live.is_alive is True
+        live.stop()
+        assert live.is_alive is False
 
-    live = out.LiveText('First message')
-    live.error('Error message')
-    assert 'Error message' in out.ansi_clean(buffer.getvalue())
-    assert live.is_alive is False
+        live = out.LiveText('First message')
+        live.error('Error message')
+        assert 'Error message' in out.ansi_clean(buffer.getvalue())
+        assert live.is_alive is False
 
-    live = out.LiveText('First message')
-    assert live.is_alive is True
-    live.success('Success message')
-    assert live.is_alive is False
-    assert 'Success message' in out.ansi_clean(buffer.getvalue())
+        live = out.LiveText('First message')
+        assert live.is_alive is True
+        live.success('Success message')
+        assert live.is_alive is False
+        assert 'Success message' in out.ansi_clean(buffer.getvalue())
 
-    live = out.LiveText('First message')
-    live.warn('Warn message', end=True)
-    assert live.is_alive is False
-    assert 'Warn message' in out.ansi_clean(buffer.getvalue())
+        live = out.LiveText('First message')
+        live.warn('Warn message', end=True)
+        assert live.is_alive is False
+        assert 'Warn message' in out.ansi_clean(buffer.getvalue())
 
-    live = out.LiveText('First message')
-    live.info('Info message', end=True)
-    assert live.is_alive is False
-    assert 'Info message' in out.ansi_clean(buffer.getvalue())
-
-    out.CONSOLE = original_console
+        live = out.LiveText('First message')
+        live.info('Info message', end=True)
+        assert live.is_alive is False
+        assert 'Info message' in out.ansi_clean(buffer.getvalue())
+    finally:
+        out.CONSOLE = original_console
 
 
 def test_table(capsys):
@@ -127,6 +144,19 @@ def test_table(capsys):
         {'name': 'Luke', 'age': 18, 'is_student': True},
         {'name': 'Elizabeth', 'age': 101, 'is_student': False},
     ]
+    buffer = StringIO()
+    original_console = out.CONSOLE
+    try:
+        out.CONSOLE = Console(
+            file=buffer, force_terminal=True, color_system='truecolor'
+        )
+        out.table(data, border=False, title='My title', style_cols='red')
+        raw_output = buffer.getvalue()
+        assert '\x1b[' in raw_output
+        assert '\x1b[31m' in raw_output or '\x1b[91m' in raw_output
+    finally:
+        out.CONSOLE = original_console
+
     out.table(data, border=False, title='My title')
     printed = output(capsys)
     assert 'My title' in printed
@@ -168,3 +198,26 @@ def test_var_dump(capsys):
     assert "\n    'number': 1," in printed
     assert "\n    'list': ['a', 'b', 'c']," in printed
     assert "\n    'dict': {'key a': 'value a'," in printed
+
+
+def test_ask(capsys, monkeypatch):
+    monkeypatch.setattr('builtins.input', lambda: 'y')
+    response = out.ask('You are sure?')
+    assert response == 'y'
+    printed = output(capsys)
+    assert 'You are sure?' in printed
+    assert '[y/n]' in printed
+
+    monkeypatch.setattr('builtins.input', lambda: 'answer')
+    response = out.ask('What is your name?', choices=None)
+    assert response == 'answer'
+    printed = output(capsys)
+    assert 'What is your name?' in printed
+    assert '[y/n]' not in printed
+
+    monkeypatch.setattr('builtins.input', lambda: 'yes')
+    response = out.ask('Continue?', choices=['yes', 'no'])
+    assert response == 'yes'
+    printed = output(capsys)
+    assert 'Continue?' in printed
+    assert '[yes/no]' in printed

@@ -21,13 +21,13 @@ def install(cmd, _global: False):
         out.critical('No path for install')
     fire_path = f'{install_path}/fire'
     out.info(f'Command available at {fire_path}')
+    pyproject_path = cmd.app.path('pyproject.toml')
     with open(fire_path, 'w') as fp:
         fp.write(
             '\n'.join(
                 [
                     '#!/bin/bash',
-                    f'cd {cmd.app.path()}',
-                    'rye run fire "$@"',
+                    f'rye run --pyproject {pyproject_path} fire "$@"',
                 ]
             )
         )
@@ -65,7 +65,7 @@ def coverage(cmd):
     '''
     Launch tests with coverage
     '''
-    bash = 'poetry run coverage run -m pytest && poetry run coverage html'
+    bash = 'rye run coverage run -m pytest && rye run coverage html'
     cmd.app.shell(bash, capture_output=False)
 
 

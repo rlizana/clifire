@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.7] - 2025-07-06
+
+### Added
+- Add `get`, `set`, and `contains` methods to the `Config` class so that it works like a dictionary.
+- Global options `--help` and `-h` to display command help
+- Add `extra_args` to `Commands` with the extra arguments that are passed
+- Add `query_get`, `query_set`, and `query_del` methods to the `Config` class to allow get, set, and delete operations on the configuration using `.` to navigate through configuration attributes.
+- Added the `ask` method to `out` for interactive user prompts.
+- Added the `path` method to `template` to obtain the absolute path of a template file.
+- New global option `--no-ansi` to disable ANSI color codes in the output.
+- Add new `add_commands` method to the `Application` class to add multiple commands.
+- When use `shell` method of the `Application` class, if set a path register it is logged in the debug.
+
+### Changed
+- Improved the `LiveText` class from `out` to ensure that all created `LiveText` instances are canceled at program exit using the `atexit` library.
+- Improved the `LiveText` class from `out` to expose the elapsed time since the object was created in an `elapsed_time` variable.
+- Modified the `init` command so that it is executed immediately after its constructor, as it did not make sense to call it before the execution of the `fire` method since there was no code in between.
+- Modified the `table` method of the `out` class to accept an optional `style` argument that allows defining the table style. If not specified, the default style is used.
+
+### Fixed
+- When using the `shell` method of the `Application` class with a specific path, after execution it ensures to return to the previous path.
+- The installation of the global bash script command `fire` previously required running `cd` to launch it. Now, it no longer performs `cd`, so when the `fire` command is executed, it reads the user's current directory. The command is installed with `fire install`.
+- Fixed the `help` command so that options with underscores `_` are displayed with hyphens `-` in the help output.
+- Sorted the output of "Available Commands" section in the `help` command so that they appear in alphabetical order.
+- When executing a group of commands, it shows the help only for the group, not the complete help.
+
+
+### Removed
+
+
 ## [0.1.6] - 2025-06-17
 
 ### Added

@@ -2,13 +2,18 @@ import os
 import re
 
 import jinja2
+from clifire import application
 
 
 class Template:
     def __init__(self, template_folder: str):
+        self.template_folder = template_folder
         self.jinja2 = jinja2.Environment(
             loader=jinja2.FileSystemLoader(template_folder)
         )
+
+    def path(self, *args: list[str]) -> str:
+        return application.App.current_app.path(self.template_folder, *args)
 
     def render(self, template, **args):
         args['os'] = os

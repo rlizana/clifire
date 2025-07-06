@@ -14,6 +14,7 @@ def temp_dir():
 def test_app_template(temp_dir):
     folder = os.path.join(os.path.dirname(__file__), 'sample', 'template')
     app = application.App(template_folder=folder)
+    assert folder == app.template.path()
     kwargs = {
         'title': 'sample',
         'user': 'root',
