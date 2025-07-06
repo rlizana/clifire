@@ -56,3 +56,30 @@ def test_config(temp_dir):
     assert conf.get('non_existent', 'default') == 'default'
     assert str(conf) == repr(conf)
     assert isinstance(str(conf), str)
+
+    assert 'new_key' not in conf
+    conf['new_key'] = 'new_value'
+    assert conf['new_key'] == 'new_value'
+
+
+def test_config_query(temp_dir):
+    config_file = os.path.join(temp_dir, 'config.yaml')
+    test_data = {
+        'parent': {
+            'child_1': {
+                'name': 'Rob',
+            },
+            'name': 'Parent',
+        }
+    }
+    conf = config.Config(config_file=config_file, create=False, **test_data)
+    assert conf.query_get('parent.child_1.name') == 'Rob'
+    assert conf.query_get('parent.child_2.name', 'Not Exist') == 'Not Exist'
+    conf.query_set('parent.child_1.name', 'Changed')
+    assert conf.query_get('parent.child_1.name') == 'Changed'
+    with pytest.raises(KeyError):
+        conf.query_set('parent.child_2.name', 'Changed')
+    conf.query_del('parent.child_1.name')
+    assert conf.query_get('parent.child_1.name', 'Deleted') == 'Deleted'
+    with pytest.raises(KeyError):
+        conf.query_del('parent.child_2.name')

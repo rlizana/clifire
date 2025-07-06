@@ -182,8 +182,6 @@ def test_command_options():
     cmd.parse('contact NAME --option')
     assert hasattr(cmd, 'option')
     assert cmd.option is True
-    assert not hasattr(cmd, 'option_init')
-    cmd.init()
     assert hasattr(cmd, 'option_init')
 
     cmd = app.get_command('contact')

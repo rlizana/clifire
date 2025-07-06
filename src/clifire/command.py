@@ -117,7 +117,9 @@ class Command:
         self._options = {}
         self.app = app
         self._fields_update()
-        self.command_line = ''
+        self.command_line = command_line
+        self.extra_args = []
+        self.init()
 
     @property
     def context(self):
@@ -174,6 +176,8 @@ class Command:
             name = name.replace('-', '_')
             if name not in self._options:
                 if name not in self.app.options:
+                    out.debug2(f'Extra option "{part}"')
+                    self.extra_args.append(part)
                     continue
                 field, _value = self.app.options[name]
                 if isinstance(field, str):
@@ -197,7 +201,9 @@ class Command:
         arg_names = self._argument_names.copy()
         for index, argument in enumerate(arguments):
             if not arg_names:
-                break
+                out.debug2(f'Extra argument "{argument}"')
+                self.extra_args.append(argument)
+                continue
             name = arg_names.pop(0)
             if self._fields[name].type == list:
                 out.debug2(f'Argument "{name}" = {arguments[index:]}')
@@ -212,10 +218,9 @@ class Command:
         self._fields_check()
 
     def launch(self, command_line: str):
+        self.command_line = command_line
         out.debug(f'Launching command "{self._name}"')
         self.parse(command_line)
-        out.debug(f'Init command "{self._name}"')
-        self.init()
         out.debug(f'Running command "{self._name}"')
         return self.fire()
 

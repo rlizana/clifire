@@ -38,7 +38,11 @@ class CommandInfoAsk(command.Command):
 
     _name = 'info.ask'
 
-    text = command.Field(pos=1, help='Message text to show in the console')
+    text = command.Field(
+        pos=1,
+        force_type=str,
+        help='Message text to show in the console',
+    )
     type = command.Field(
         help='Color can be: info, warn or error',
         default='info',

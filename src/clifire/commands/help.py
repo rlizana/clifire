@@ -56,6 +56,7 @@ class CommandHelp(command.Command):
             field = cmd._options[name]
             if isinstance(field, str):
                 field = cmd._fields[field]
+            name = name.replace('_', '-')
             name = f'-{name}' if len(name) == 1 else f'--{name}'
             options.setdefault(field, []).append(name)
         if not options:
@@ -81,6 +82,7 @@ class CommandHelp(command.Command):
             field, _value = self.app.options[name]
             if isinstance(field, str):
                 field, _value = self.app.options[field]
+            name = name.replace('_', '-')
             name = f'-{name}' if len(name) == 1 else f'--{name}'
             options.setdefault(field, []).append(name)
         if not options:
@@ -127,7 +129,7 @@ class CommandHelp(command.Command):
         for key in sorted(groups.keys()):
             if key and key != cmd._name:
                 data.append({'name': f'\n[green]{key}[/green]', 'help': ''})
-            data += groups[key]
+            data += sorted(groups[key], key=lambda item: item['name'])
         out.table(
             data,
             border=False,

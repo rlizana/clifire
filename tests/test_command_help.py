@@ -44,16 +44,32 @@ def test_command_help_without_arguments(capsys):
 
 
 def test_command_help_without_global_options(capsys):
+    app = application.App(name='sample', version='1.0.99')
+    app.fire('help')
+    printed = output(capsys)
+    assert '--no-ansi' in printed
+    assert '--verbose' in printed
+
     app = application.App(
-        name='sample', version='1.0.99', option_verbose=False
+        name='sample',
+        version='1.0.99',
+        option_verbose=False,
+        option_ansi=False,
     )
     app.fire('help')
     printed = output(capsys)
     assert 'Description' in printed
-    assert 'Global options:' not in printed
+    assert 'Global options:' in printed
+    assert '--no-ansi' not in printed
+    assert '--verbose' not in printed
     assert 'Arguments' in printed
     assert 'version' in printed
     assert 'help' in printed
+
+    app.options = {}
+    app.fire('help')
+    printed = output(capsys)
+    assert 'Global options:' not in printed
 
 
 def test_command_help_with_groups(capsys):
@@ -70,19 +86,21 @@ def test_command_help_with_groups(capsys):
         _help = 'Set config value'
 
     app = application.App(name='sample', version='1.0.99')
-    app.add_command(CommandDbCreate)
-    app.add_command(CommandDbDrop)
-    app.add_command(CommandConfigSet)
+    app.add_commands(
+        [
+            CommandDbCreate,
+            CommandDbDrop,
+            CommandConfigSet,
+        ]
+    )
 
     app.fire('help')
     printed = output(capsys)
     assert 'db' in printed
     assert 'config' in printed
-
     assert 'create' in printed
     assert 'drop' in printed
     assert 'set' in printed
-
     assert 'Create database' in printed
     assert 'Drop database' in printed
     assert 'Set config value' in printed
@@ -90,3 +108,11 @@ def test_command_help_with_groups(capsys):
     db_pos = printed.find('db')
     config_pos = printed.find('config')
     assert config_pos < db_pos
+
+    app.fire('db create --help')
+    printed = output(capsys)
+    assert 'Create database' in printed
+
+    app.fire('db create -h')
+    printed = output(capsys)
+    assert 'Create database' in printed
