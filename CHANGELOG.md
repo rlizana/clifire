@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Minimum Python version is now 3.10.
+- Remove packages version in `pyproject.toml` to use the latest versions.
 
 ### Fixed
 - Change poetry to rye in the scripts for building and testing the package.
