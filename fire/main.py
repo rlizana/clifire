@@ -48,7 +48,7 @@ def build(cmd):
     Build the package and documentation
     '''
     live = out.LiveText('Building ...')
-    res = cmd.app.shell('poetry build')
+    res = cmd.app.shell('rye build')
     if res:
         live.success('Build success')
     else:

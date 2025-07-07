@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.8] - 2025-07-07
+
+### Added
+
+### Changed
+- Minimum Python version is now 3.10.
+
+### Fixed
+- Change poetry to rye in the scripts for building and testing the package.
+
 ## [0.1.7] - 2025-07-06
 
 ### Added
@@ -14,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added the `ask` method to `out` for interactive user prompts.
 - Added the `path` method to `template` to obtain the absolute path of a template file.
 - New global option `--no-ansi` to disable ANSI color codes in the output.
+- Improved exception output to display the full traceback.
+- Create `live` method in `out` to ensure only one instance of `LiveText` exists.
 - Add new `add_commands` method to the `Application` class to add multiple commands.
 - When use `shell` method of the `Application` class, if set a path register it is logged in the debug.
 
@@ -29,6 +41,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixed the `help` command so that options with underscores `_` are displayed with hyphens `-` in the help output.
 - Sorted the output of "Available Commands" section in the `help` command so that they appear in alphabetical order.
 - When executing a group of commands, it shows the help only for the group, not the complete help.
+- In the global options, the underscore `_` is not replaced by a hyphen `-` in the help output.
+- Clean the command line before processing it to obtain the global options.
 
 
 ### Removed

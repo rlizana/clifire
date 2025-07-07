@@ -1,13 +1,13 @@
 [project]
 name = "CliFire"
-version = "0.1.7"
+version = "0.1.8"
 description = "Minimal CLI framework to build Python commands quickly and elegantly."
 authors = [
     { name = "Roberto Lizana", email = "rober.lizana@gmail.com" }
 ]
 packages = ["src"]
 readme = "README.md"
-requires-python = ">= 3.10"
+requires-python = ">= 3.0"
 dependencies = [
     "jinja2>=3.1.6",
     "pyyaml>=6.0.2",
