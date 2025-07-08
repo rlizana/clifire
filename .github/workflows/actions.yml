@@ -39,10 +39,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Create compatible setup environment
+        run: |
+          mv pyproject.toml pyproject.toml.bak
+          cat > setup.py << 'EOF'
+          from setuptools import setup, find_packages
+
+          setup(
+              name='clifire',
+              version='0.1.8',
+              packages=find_packages(where='src'),
+              package_dir={'': 'src'},
+              install_requires=[
+                  'rich<13.0.0',
+                  'pyyaml',
+                  'jinja2<3.1.0',
+              ],
+          )
+          EOF
+
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest coverage coveralls
+          python -m pip install --upgrade "pip<21.3.2"
+          pip install "pytest<7.1.0" "coverage<7.0.0" coveralls
           pip install -e .
 
       - name: Run unit tests
