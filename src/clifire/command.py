@@ -1,6 +1,7 @@
 import inspect
 import re
 import shlex
+from typing import List, Optional, Type, Union
 
 from clifire import out
 
@@ -68,8 +69,8 @@ class Field:
         pos: int = False,
         help: str = '',
         default: str = None,
-        alias: str | list[str] | None = None,
-        force_type: type = None,
+        alias: Union[str, List[str], None] = None,
+        force_type: Optional[Type] = None,
     ):
         self.name = 'unknow'
         self.pos = pos

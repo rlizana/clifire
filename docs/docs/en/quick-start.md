@@ -18,6 +18,12 @@ pip install clifire
 poetry add clifire
 ```
 
+### Using Rye
+
+```bash
+rye add clifire
+```
+
 ## Basic Usage
 
 CliFire allows you to define commands using decorators or classes. Here’s an example using a decorator to greet the user:

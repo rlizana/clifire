@@ -1,4 +1,5 @@
 import os
+from typing import Any, Dict, List
 
 import yaml
 from clifire import out
@@ -6,7 +7,7 @@ from clifire import out
 
 class Config:
     @classmethod
-    def get_config(cls, files: list, create: bool = False, **kwargs):
+    def get_config(cls, files: List[str], create: bool = False, **kwargs):
         def path(*args) -> str:
             expand_path = os.path.join(
                 *(a.replace('~', os.path.expanduser('~')) for a in args)
@@ -24,8 +25,7 @@ class Config:
                 config.read()
                 return config
             out.debug2('Not exist')
-        file = path(files[0])
-        config = Config(config_file=config_file, **kwargs)
+        config = Config(config_file=path(files[0]), **kwargs)
         if create:
             config.write()
         return config
@@ -85,7 +85,7 @@ class Config:
     def __repr__(self) -> str:
         return self.__str__()
 
-    def _safe_dict(self, data_dict: dict):
+    def _safe_dict(self, data_dict: Dict[str, Any]):
         return {k: v for k, v in data_dict.items() if not k.startswith('_')}
 
     def read(self):

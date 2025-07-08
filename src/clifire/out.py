@@ -3,7 +3,7 @@ import re
 import sys
 import threading
 import time
-from typing import Any
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from rich import traceback
 from rich.console import Console
@@ -133,13 +133,13 @@ def live(text: str = '', refresh_per_second: int = 10):
 
 
 def table(
-    data: list[dict[str, Any]],
+    data: List[Dict[str, Any]],
     title: str = '',
     border: bool = True,
     show_header: bool = True,
-    style_cols: dict[str, str] = None,
-    padding: tuple = None,
-    style: str = None,
+    style_cols: Optional[Union[Dict[str, str], str]] = None,
+    padding: Optional[Tuple] = None,
+    style: Optional[str] = None,
 ):
     if not data:
         return
@@ -220,7 +220,9 @@ def var_dump(var) -> None:
     CONSOLE.print(var, highlight=True)
 
 
-def ask(text: str, choices: list[str] = ['y', 'n']):  # noqa: B006
+def ask(text: str, choices: Optional[List[str]] = False):
+    if choices is False:
+        choices = ['y', 'n']
     return Prompt.ask(
         text, choices=choices, default=choices[0] if choices else None
     )

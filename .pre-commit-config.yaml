@@ -50,7 +50,7 @@ repos:
     hooks:
       - id: pyupgrade
         name: Automatically upgrade syntax for newer versions of the language
-        args: ["--py310-plus", "--keep-runtime-typing", "--keep-percent-format"]
+        args: ["--py36-plus", "--keep-runtime-typing", "--keep-percent-format"]
 
   - repo: local
     hooks:

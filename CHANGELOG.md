@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 ### Changed
-- Minimum Python version is now 3.10.
+- Minimum Python version is now 3.6.
 - Remove packages version in `pyproject.toml` to use the latest versions.
 
 ### Fixed

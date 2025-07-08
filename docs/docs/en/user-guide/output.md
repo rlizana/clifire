@@ -49,10 +49,10 @@ Below are the most commonly used functions:
   out.var_dump(sample_dict)
   ```
 
-- **`out.LiveText`**
-  This is a class that allows you to update text in real time in the terminal. It is useful for displaying progress bars or counters that update dynamically.
+- **`out.live`**
+  This is a method that allows you to update text in real time in the terminal. It is useful for displaying progress bars or counters that update dynamically.
   ```python
-  live_text = out.LiveText("Starting...")
+  live_text = out.live("Starting...")
   live_text.info("Process running")
   live_text.warn("Retrying operation")
   live_text.success("Operation completed", end=False)
@@ -100,7 +100,7 @@ class OutCommand(command.Command):
         print('')
         print('Live text')
         print('-' * 80)
-        live_text = out.LiveText("Starting...")
+        live_text = out.live("Starting...")
         time.sleep(1)
         live_text.info("Process running")
         time.sleep(1)
