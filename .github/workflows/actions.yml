@@ -38,10 +38,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.6.7
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.6.7 with pyenv
+        uses: gabrielfalcao/pyenv-action@v13
         with:
-          python-version: '3.6.7'
+          default: 3.6.7
+          command: pip install -U pip
 
       - name: Install dependencies
         run: |
@@ -71,7 +72,9 @@ jobs:
           RYE_INSTALL_OPTION: '--yes'
 
       - name: Install dependencies
-        run: rye sync --all-features
+        run: |
+          rye pin cpython@3.12.2
+          rye sync --all-features
 
       - name: Run unit tests
         run: rye run coverage run -m pytest
