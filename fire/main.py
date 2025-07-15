@@ -89,3 +89,12 @@ def precommit(cmd):
     Launch pre-commit
     '''
     cmd.app.shell('pre-commit run --all-files', capture_output=False)
+
+
+@command.fire
+def tests(cmd):
+    '''
+    Launch tests
+    '''
+    path = cmd.app.path(os.path.dirname(__file__), '..')
+    cmd.app.shell('rye run python -m pytest', capture_output=False, path=path)

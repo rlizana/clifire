@@ -1,13 +1,23 @@
-FROM python:3.8.2-slim
+FROM ubuntu:latest
+ARG PYTHON_VERSION=3.8.2
+
+RUN apt-get update && apt-get install -y \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV RYE_HOME="/root/.rye"
+ENV RYE_INSTALL_OPTION="--yes"
+ENV RYE_NO_AUTO_INSTALL="true"
+RUN curl -sSf https://rye.astral.sh/get | bash
+ENV PATH="/root/.rye/shims:${PATH}"
 
 WORKDIR /app
+COPY pyproject.toml README.md ./
+COPY src ./src
+COPY tests ./tests
+COPY fire ./fire
 
-COPY pyproject.toml README.md src ./
+RUN rye pin cpython@${PYTHON_VERSION} && \
+    rye sync --all-features
 
-RUN sed -i 's/coverage = ">=7.9.1"/coverage = ">=6.0.0,<7.0.0"/' pyproject.toml
-
-RUN pip install --upgrade pip && \
-    pip install pytest "coverage<7.0.0" && \
-    pip install -e .
-
-CMD ["bash", "-c", "python -m pytest -v"]
+CMD ["rye", "run", "fire", "tests"]
