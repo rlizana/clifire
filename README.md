@@ -71,7 +71,7 @@ In action:
 ![Demo](./docs/docs/assets/records/quick_start_hello.svg)
 
 
-For more details, see our [Quick Start Guide](https://rlizana.github.io/clifire/en/quick-start.md).
+For more details, see our [Quick Start Guide](https://rlizana.github.io/clifire/en/quick-start).
 
 ## Documentation
 
@@ -129,7 +129,7 @@ To contribute to CliFire:
 6. **Update the CHANGELOG.md** with your changes.
 7. **Commit and push** your changes, and then create a pull request.
 
-For further contribution details, please see our [Contributing Guide](https://rlizana.github.io/clifire/en/contributing.md).
+For further contribution details, please see our [Contributing Guide](https://rlizana.github.io/clifire/en/contributing).
 
 ## License
 

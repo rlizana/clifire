@@ -11,6 +11,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 ### Fixed
+- Broken links to documentation fixed in `README.md`
+
+## [0.1.9] - 2025-07-15
+
+### Added
+
+### Changed
+
+### Fixed
 - Version 0.1.8 cannot be used on pypi.org, it was accidentally removed and is missing, the version is being changed so it can be published.
 
 ## [0.1.8] - 2025-07-07
