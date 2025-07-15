@@ -1,6 +1,6 @@
 [project]
 name = "CliFire"
-version = "0.1.8"
+version = "0.1.9"
 description = "Minimal CLI framework to build Python commands quickly and elegantly."
 authors = [
     { name = "Roberto Lizana", email = "rober.lizana@gmail.com" }
@@ -41,7 +41,7 @@ fire = 'python -m src.clifire.main'
 
 [tool.black]
 line-length = 79
-target-version = ["py310"]
+target-version = ["py38"]
 skip-string-normalization = true
 
 [flake8]

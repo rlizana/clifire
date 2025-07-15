@@ -65,13 +65,11 @@ def publish(cmd):
     '''
     Publish then package
     '''
-    live = out.LiveText('Puiblising ...')
     res = cmd.app.shell('rye publish -y', capture_output=False)
     if res:
-        live.success('Published')
+        out.success('Published')
     else:
-        live.error('Error on publish package')
-        return 1
+        out.critical('Error on publish package')
 
 
 @command.fire
