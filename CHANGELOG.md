@@ -7,13 +7,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.1.8] - 2025-07-07
 
 ### Added
+- Handle program interruption with `KeyboardInterrupt` to allow canceling the execution of a command.
+- Added an `icon` argument to the `critical`, `error`, `warning`, and `success` methods in `out` to display an icon.
+- Added the same `icon` argument to the `error`, `warning`, and `success` methods of `live`.
+- Added a Dockerfile to test the library with Python 3.8.
 
 ### Changed
 - Minimum Python version is now 3.6.
-- Remove packages version in `pyproject.toml` to use the latest versions.
+- Set the Python version for development to 3.12.7.
+- Removed package versions in `pyproject.toml` to use the latest versions.
 
 ### Fixed
-- Change poetry to rye in the scripts for building and testing the package.
+- Changed poetry to rye in the scripts for building and testing the package.
 
 ## [0.1.7] - 2025-07-06
 

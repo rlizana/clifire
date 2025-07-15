@@ -1,15 +1,40 @@
 import os
 import subprocess
 import sys
+import time
 from unittest.mock import patch
 
 import pytest
-from clifire import application, out
+from clifire import application, command, out
 
 
 def output(capsys):
     captured = capsys.readouterr()
     return out.ansi_clean(captured.out)
+
+
+def test_app_keyboard_interrupt(capsys):
+    class CommandWait(command.Command):
+        _name = 'wait'
+
+        def fire(self):
+            try:
+                time.sleep(1)
+            except KeyboardInterrupt:
+                out.info('KeyboardInterrupt received')
+                raise
+
+    app = application.App()
+    app.add_command(CommandWait)
+
+    with patch('time.sleep', side_effect=KeyboardInterrupt):
+        with pytest.raises(KeyboardInterrupt):
+            app.fire('wait')
+
+    printed = output(capsys)
+    assert 'KeyboardInterrupt received' in printed
+    assert 'End command' not in printed
+    assert 'Keyboard interrupt!' in printed
 
 
 def test_app_global_option_no_ansi(capsys):

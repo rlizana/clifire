@@ -187,6 +187,9 @@ class App:
             out.critical(e, code=30)
         except command.FieldException as e:
             out.critical(e, code=40)
+        except KeyboardInterrupt:
+            out.error('Keyboard interrupt!')
+            raise
 
     @classmethod
     def shell(
