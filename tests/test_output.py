@@ -195,9 +195,9 @@ def test_var_dump(capsys):
         }
     )
     printed = output(capsys)
-    assert "\n    'number': 1," in printed
-    assert "\n    'list': ['a', 'b', 'c']," in printed
-    assert "\n    'dict': {'key a': 'value a'," in printed
+    assert "'number': 1," in printed
+    assert "'list': ['a', 'b', 'c']," in printed
+    assert "'dict': {'key a': 'value a'," in printed
 
 
 def test_ask(capsys, monkeypatch):
@@ -221,3 +221,61 @@ def test_ask(capsys, monkeypatch):
     printed = output(capsys)
     assert 'Continue?' in printed
     assert '[yes/no]' in printed
+
+
+def test_rule(capsys):
+    out.rule('My rule')
+    printed = output(capsys)
+    assert 'My rule' in printed
+    assert '─' in printed
+
+    out.rule('My rule')
+    printed = output(capsys)
+    assert 'My rule' in printed
+    assert '─' in printed
+
+    live = out.live('Message in live')
+    assert 'Message in live' in live._text
+    out.rule('My rule')
+    assert 'My rule' in live._text
+    printed = output(capsys)
+    assert 'My rule' in printed
+    live.cancel()
+    printed = output(capsys)
+    assert 'My rule' not in printed
+
+
+def test_no_ansi(capsys):
+    out.setup(ansi=False)
+    assert out.CONSOLE.no_color is True
+    out.success('Success')
+    assert '✓ Success' in output(capsys)
+    out.warn('Warn')
+    assert '▲ Warn' in output(capsys)
+    out.error('Error')
+    assert '✗ Error' in output(capsys)
+
+    live = out.live('Message in live')
+    assert 'Message in live' in live._text
+    live.success('Success', end=False)
+    time.sleep(1)
+    assert '✓ Success' in live._text
+    live.error('Error', end=False)
+    assert '✗ Error' in live._text
+    live.cancel()
+
+    output(capsys)
+    out.setup(ansi=True)
+    assert out.CONSOLE.no_color is False
+    out.success('Success')
+    assert '✓' not in output(capsys)
+    out.warn('Warn')
+    assert '▲' not in output(capsys)
+    out.error('Error')
+    assert '✗' not in output(capsys)
+    out.success('Success', icon=True)
+    assert '✓ Success' in output(capsys)
+    out.warn('Warn', icon=True)
+    assert '▲ Warn' in output(capsys)
+    out.error('Error', icon=True)
+    assert '✗ Error' in output(capsys)

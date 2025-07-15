@@ -2,6 +2,7 @@ import os
 import shlex
 import subprocess
 import sys
+from typing import Any, Dict, List, Type
 
 from clifire import command, commands, config, out, result, template
 
@@ -13,10 +14,10 @@ class App:
         self,
         name: str = '',
         version: str = '0.0.1 alpha',
-        context: dict = None,
+        context: Dict[str, Any] = None,
         option_verbose: bool = True,
         option_ansi: bool = True,
-        config_files: list = None,
+        config_files: List[str] = None,
         config_create: bool = False,
         command_help=commands.help.CommandHelp,
         command_version=commands.version.CommandVersion,
@@ -103,14 +104,14 @@ class App:
             return default
         return self.options[name][1]
 
-    def add_command(self, cls: command.Command):
+    def add_command(self, cls: Type[command.Command]):
         if not cls._name:
             raise command.CommandException(
                 f'The command {cls} has no name, please set _name var in class'
             )
         self.commands[cls._name] = cls
 
-    def add_commands(self, commands: list):
+    def add_commands(self, commands: List[Type[command.Command]]):
         for cmd in commands:
             self.add_command(cmd)
 
@@ -186,6 +187,9 @@ class App:
             out.critical(e, code=30)
         except command.FieldException as e:
             out.critical(e, code=40)
+        except KeyboardInterrupt:
+            out.error('Keyboard interrupt!')
+            raise
 
     @classmethod
     def shell(
@@ -220,7 +224,7 @@ class App:
             os.chdir(pwd)
 
     @classmethod
-    def path(cls, *args: list[str]) -> str:
+    def path(cls, *args: List[str]) -> str:
         if len(args) == 0:
             args = (os.getcwd(),)
         exapnd_path = os.path.join(

@@ -40,14 +40,14 @@ Existen varias maneras de ayudar:
 #### **Ejecuta los tests:**
    Asegúrate de que todos los tests pasan con:
    ```bash
-   poetry run pytest
+   rye run pytest
    ```
    Comprueba la cobertura:
    ```bash
-   poetry run coverage run -m pytest && poetry run coverage html
+   rye run coverage run -m pytest && rye run coverage html
    ```
 
-   También puedes usar `poetry run fire coverage` para ejecutar los tests y generar el informe de cobertura.
+   También puedes usar `rye run fire coverage` para ejecutar los tests y generar el informe de cobertura.
 
 #### **Realiza un Pull Request:**
    Una vez que estés satisfecho con tus cambios, realiza un *pull request* a la rama principal del repositorio. Describe detalladamente lo que has cambiado y la motivación detrás de ello.

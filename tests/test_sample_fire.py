@@ -127,7 +127,8 @@ def test_fire_group_help(capsys):
 
     app.fire('help ab ef')
     printed = output(capsys)
-    assert 'ab ef' not in printed
+    assert 'ab [options]' in printed
+    assert 'ab ef [options]' not in printed
     assert 'doc_ab_ef_gh' in printed
 
     app.fire('help zz')

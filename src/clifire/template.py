@@ -1,5 +1,6 @@
 import os
 import re
+from typing import List
 
 import jinja2
 from clifire import application
@@ -12,7 +13,7 @@ class Template:
             loader=jinja2.FileSystemLoader(template_folder)
         )
 
-    def path(self, *args: list[str]) -> str:
+    def path(self, *args: List[str]) -> str:
         return application.App.current_app.path(self.template_folder, *args)
 
     def render(self, template, **args):

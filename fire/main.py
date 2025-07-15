@@ -61,6 +61,20 @@ def build(cmd):
 
 
 @command.fire
+def publish(cmd):
+    '''
+    Publish then package
+    '''
+    live = out.LiveText('Puiblising ...')
+    res = cmd.app.shell('rye publish -y', capture_output=False)
+    if res:
+        live.success('Published')
+    else:
+        live.error('Error on publish package')
+        return 1
+
+
+@command.fire
 def coverage(cmd):
     '''
     Launch tests with coverage
@@ -75,3 +89,12 @@ def precommit(cmd):
     Launch pre-commit
     '''
     cmd.app.shell('pre-commit run --all-files', capture_output=False)
+
+
+@command.fire
+def tests(cmd):
+    '''
+    Launch tests
+    '''
+    path = cmd.app.path(os.path.dirname(__file__), '..')
+    cmd.app.shell('rye run python -m pytest', capture_output=False, path=path)
