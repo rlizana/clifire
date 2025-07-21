@@ -76,6 +76,12 @@ class Config:
     def __setitem__(self, key, value):
         self.__dict__[key] = value
 
+    def __delitem__(self, key):
+        if key in self.__dict__:
+            del self.__dict__[key]
+        else:
+            raise KeyError(f'Key "{key}" not found')
+
     def __contains__(self, key):
         return key in self.__dict__
 

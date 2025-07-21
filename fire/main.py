@@ -86,7 +86,7 @@ def precommit(cmd):
     '''
     Launch pre-commit
     '''
-    cmd.app.shell('pre-commit run --all-files', capture_output=False)
+    cmd.app.shell('rye run pre-commit run --all-files', capture_output=False)
 
 
 @command.fire

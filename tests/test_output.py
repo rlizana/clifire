@@ -23,17 +23,17 @@ def test_info(capsys):
 
 
 def test_success(capsys):
-    out.success('Success sample message')
+    out.success('Success sample message', icon=False)
     assert 'Success sample message\n' == output(capsys)
 
 
 def test_warn(capsys):
-    out.warn('Warn sample message')
+    out.warn('Warn sample message', icon=False)
     assert 'Warn sample message\n' == output(capsys)
 
 
 def test_error(capsys):
-    out.warn('Error sample message')
+    out.warn('Error sample message', icon=False)
     assert 'Error sample message\n' == output(capsys)
 
 
@@ -246,7 +246,7 @@ def test_rule(capsys):
 
 
 def test_no_ansi(capsys):
-    out.setup(ansi=False)
+    out.setup(ansi=False, show_icons=False)
     assert out.CONSOLE.no_color is True
     out.success('Success')
     assert '✓ Success' in output(capsys)
@@ -265,7 +265,7 @@ def test_no_ansi(capsys):
     live.cancel()
 
     output(capsys)
-    out.setup(ansi=True)
+    out.setup(ansi=True, show_icons=False)
     assert out.CONSOLE.no_color is False
     out.success('Success')
     assert '✓' not in output(capsys)
