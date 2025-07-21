@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.10] - 2025-07-21
+
+### Added
+- New parameter in the `Application` class constructor called `show_messages_with_icons` that allows displaying icons in output messages. Default is `True`.
+- Added the `__delitem__` method to `config` to remove an item from the configuration dictionary.
+
+### Changed
+- In `out`, renamed the `force_icon` parameter to `show_icon` to make it more descriptive.
+
+### Fixed
+- Broken links to documentation fixed in `README.md`
+
 ## [0.1.9] - 2025-07-15
 
 ### Added

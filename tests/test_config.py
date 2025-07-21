@@ -83,3 +83,16 @@ def test_config_query(temp_dir):
     assert conf.query_get('parent.child_1.name', 'Deleted') == 'Deleted'
     with pytest.raises(KeyError):
         conf.query_del('parent.child_2.name')
+
+
+def test_config_del(temp_dir):
+    config_file = os.path.join(temp_dir, 'config.yaml')
+    test_data = {
+        'key_1': 1,
+        'key_2': 2,
+    }
+    conf = config.Config(config_file=config_file, create=False, **test_data)
+    del conf['key_1']
+    assert 'key_1' not in conf
+    with pytest.raises(KeyError):
+        del conf['key_1']

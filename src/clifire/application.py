@@ -22,6 +22,7 @@ class App:
         command_help=commands.help.CommandHelp,
         command_version=commands.version.CommandVersion,
         template_folder=None,
+        show_messages_with_icons: bool = True,
     ):
         App.current_app = self
         self.name = name
@@ -55,6 +56,7 @@ class App:
         self.template = None
         if template_folder:
             self.template = template.Template(template_folder)
+        self.show_messages_with_icons = show_messages_with_icons
 
     def _add_option_verbose(self):
         self.add_option(
@@ -179,7 +181,10 @@ class App:
             else:
                 command_line = self._clean_command_line(command_line)
             cmd = self.get_command(command_line)
-            out.setup(not self.get_option('no_ansi'))
+            out.setup(
+                not self.get_option('no_ansi'),
+                show_icons=self.show_messages_with_icons,
+            )
             res = cmd.launch(cmd.command_line)
             if type(res) is int and res != 0:
                 sys.exit(res)

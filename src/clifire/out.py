@@ -29,12 +29,16 @@ COLOR_SUCCESS = 'green'
 COLOR_WARN = 'yellow'
 COLOR_ERROR = 'red'
 
+ICON_SHOW = False
 ICON_SUCCESS = '✓'
 ICON_ERROR = '✗'
 ICON_WARN = '▲'
 
 
-def setup(ansi: bool = True):
+def setup(ansi: bool = True, show_icons: bool = None) -> None:
+    global ICON_SHOW, CONSOLE, CONSOLE_WIDTH
+    if show_icons is not None:
+        ICON_SHOW = show_icons
     if ansi:
         CONSOLE.no_color = False
         CONSOLE.highlight = True
@@ -112,23 +116,23 @@ class LiveText:
         if end:
             self.stop()
 
-    def warn(self, text: str, end=False, icon: bool = False):
+    def warn(self, text: str, end=False, icon: bool = None):
         self._text = text_color(
-            text, color=COLOR_WARN, icon=ICON_WARN, force_icon=icon
+            text, color=COLOR_WARN, icon=ICON_WARN, show_icon=icon
         )
         if end:
             self.stop()
 
-    def success(self, text: str, end=True, icon: bool = False):
+    def success(self, text: str, end=True, icon: bool = None):
         self._text = text_color(
-            text, color=COLOR_SUCCESS, icon=ICON_SUCCESS, force_icon=icon
+            text, color=COLOR_SUCCESS, icon=ICON_SUCCESS, show_icon=icon
         )
         if end:
             self.stop()
 
-    def error(self, text: str, end=True, icon: bool = False):
+    def error(self, text: str, end=True, icon: bool = None):
         self._text = text_color(
-            text, color=COLOR_ERROR, icon=ICON_ERROR, force_icon=icon
+            text, color=COLOR_ERROR, icon=ICON_ERROR, show_icon=icon
         )
         if end:
             self.stop()
@@ -192,11 +196,13 @@ def text_color(
     text: str,
     color: str = COLOR_NORMAL,
     icon: str = None,
-    force_icon: bool = False,
+    show_icon: bool = False,
 ) -> str:
+    if show_icon is None:
+        show_icon = ICON_SHOW
     text = str(text)
     if icon and not text.startswith(icon):
-        if CONSOLE.no_color is True or force_icon:
+        if CONSOLE.no_color is True or show_icon:
             text = f'{icon} {text}'
     return f'[{color}]{text}[/{color}]'
 
@@ -205,9 +211,9 @@ def _print(
     text: str,
     color: str = COLOR_NORMAL,
     icon: str = None,
-    force_icon: bool = False,
+    show_icon: bool = None,
 ) -> None:
-    text = text_color(text, color=color, icon=icon, force_icon=force_icon)
+    text = text_color(text, color=color, icon=icon, show_icon=show_icon)
     CONSOLE.print(text)
 
 
@@ -215,20 +221,20 @@ def info(text: str) -> None:
     _print(text, COLOR_INFO)
 
 
-def success(text: str, icon: bool = False) -> None:
-    _print(text, color=COLOR_SUCCESS, icon=ICON_SUCCESS, force_icon=icon)
+def success(text: str, icon: bool = None) -> None:
+    _print(text, color=COLOR_SUCCESS, icon=ICON_SUCCESS, show_icon=icon)
 
 
-def warn(text: str, icon: bool = False) -> None:
-    _print(text, color=COLOR_WARN, icon=ICON_WARN, force_icon=icon)
+def warn(text: str, icon: bool = None) -> None:
+    _print(text, color=COLOR_WARN, icon=ICON_WARN, show_icon=icon)
 
 
-def error(text: str, icon: bool = False) -> None:
-    _print(text, color=COLOR_ERROR, icon=ICON_ERROR, force_icon=icon)
+def error(text: str, icon: bool = None) -> None:
+    _print(text, color=COLOR_ERROR, icon=ICON_ERROR, show_icon=icon)
 
 
 def critical(text: str, code: int = 1) -> None:
-    error(text)
+    error(text, icon=False)
     sys.exit(code)
 
 
