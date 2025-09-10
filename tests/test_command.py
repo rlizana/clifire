@@ -405,6 +405,43 @@ def test_command_option_global(capsys):
     assert 'Global option "verbose" = True' in output(capsys)
 
 
+def test_command_extra_args(capsys):
+    app = application.App()
+    app.add_command(CommandContact)
+
+    cmd = app.get_command('contact')
+    assert cmd.extra_args == []
+    cmd.parse('contact Rob 21')
+    assert cmd.extra_args == []
+
+    cmd = app.get_command('contact')
+    cmd.parse('contact Rob 21 extra args')
+    assert cmd.extra_args == ['extra', 'args']
+
+    cmd = app.get_command('contact')
+    cmd.parse('contact Rob 21 --int 1 --extra args')
+    assert cmd.extra_args == ['--extra', 'args']
+
+    cmd = app.get_command('contact')
+    cmd.parse('contact Rob 21 --extra args --int 1')
+    assert cmd.extra_args == ['--extra', 'args']
+    assert cmd.int_option == 1
+    cmd.parse('contact Rob 21')
+    assert cmd.int_option == 1
+
+    cmd = app.get_command('contact')
+    cmd.parse('contact Rob 21 --extra e1 --int 1 e2 e3 --extra-option o1 o2')
+    assert cmd.extra_args == [
+        '--extra',
+        'e1',
+        'e2',
+        'e3',
+        '--extra-option',
+        'o1',
+        'o2',
+    ]
+
+
 def test_command_return_error_code(capsys):
     class CommandTest(command.Command):
         _name = 'test'

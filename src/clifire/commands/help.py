@@ -79,9 +79,9 @@ class CommandHelp(command.Command):
     def print_options_global(self):
         options = {}
         for name in self.app.options:
-            field, _value = self.app.options[name]
+            field = self.app.options[name]
             if isinstance(field, str):
-                field, _value = self.app.options[field]
+                field = self.app.options[field]
             name = name.replace('_', '-')
             name = f'-{name}' if len(name) == 1 else f'--{name}'
             options.setdefault(field, []).append(name)

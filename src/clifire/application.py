@@ -84,7 +84,7 @@ class App:
             self.set_option('no_ansi', True)
 
     def add_option(self, name: str, field: command.Field):
-        self.options[name] = [field, field.default]
+        self.options[name] = field
         for alias in field.alias:
             if alias.startswith('-'):
                 alias = alias[2:] if alias.startswith('--') else alias[1:]
@@ -93,18 +93,18 @@ class App:
                 raise command.CommandException(
                     f'Duplicate global option alias "{alias}"'
                 )
-            self.options[alias] = [name, None]
+            self.options[alias] = name
 
     def set_option(self, name: str, value):
         if name not in self.options:
             return False
-        self.options[name][1] = value
+        self.options[name].value = value
         return True
 
     def get_option(self, name: str, default=None):
         if name not in self.options:
             return default
-        return self.options[name][1]
+        return self.options[name].value
 
     def add_command(self, cls: Type[command.Command]):
         if not cls._name:
