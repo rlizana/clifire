@@ -73,11 +73,24 @@ def publish(cmd):
 
 
 @command.fire
-def coverage(cmd):
+def coverage(cmd, file: str = ''):
     '''
     Launch tests with coverage
+
+    Args:
+        file: Specific test file to run (e.g., "test_command.py")
     '''
-    bash = 'rye run coverage run -m pytest && rye run coverage html'
+    if file:
+        test_path = f'tests/{file}' if not file.startswith('tests/') else file
+        if not os.path.exists(test_path):
+            out.critical(f'File {test_path} not exists')
+        bash = (
+            f'rye run coverage run -m pytest {test_path} '
+            '&& rye run coverage html'
+        )
+    else:
+        bash = 'rye run coverage run -m pytest && rye run coverage html'
+
     cmd.app.shell(bash, capture_output=False)
 
 

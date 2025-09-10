@@ -78,6 +78,7 @@ class Field:
         alias = [] if alias is None else alias
         self.alias = [alias] if isinstance(alias, str) else alias
         self.default = default
+        self.value = default
         self.is_option = bool(pos is False or pos is None)
         self.is_required = default is None
         if force_type is None:
@@ -159,60 +160,96 @@ class Command:
 
     def _parse_command_line(self, command_line: str):
         out.debug(f'Parse command line: {command_line}')
-        arguments = []
-        self.command_line = shlex.split(command_line)
-        parts = self.command_line.copy()
-        remove_parts = len(self._name.split('.'))
-        while parts:
-            part = parts.pop(0)
-            if not part.startswith('-'):
-                remove_parts -= 1
-                if remove_parts < 0:
-                    arguments.append(part)
-                continue
-            option = part[2:] if part.startswith('--') else part[1:]
-            name, value = (
-                option.split('=', 1) if '=' in option else (option, None)
-            )
-            name = name.replace('-', '_')
-            if name not in self._options:
-                if name not in self.app.options:
-                    out.debug2(f'Extra option "{part}"')
-                    self.extra_args.append(part)
-                    continue
-                field, _value = self.app.options[name]
-                if isinstance(field, str):
-                    name = field
-                    field, _value = self.app.options[name]
-                if not value and field.type != bool:
-                    value = parts.pop(0)
-                value = field.convert(value)
-                self.app.set_option(name, value)
-                out.debug2(f'Global option "{name}" = {value}')
-                continue
-            field = self._options[name]
-            if isinstance(field, str):
-                name = field
-                field = self._options[name]
-            if not value and field.type != bool:
-                value = parts.pop(0)
-            value = field.convert(value)
-            out.debug2(f'Option "{name}" = {value}')
-            setattr(self, name, value)
-        arg_names = self._argument_names.copy()
-        for index, argument in enumerate(arguments):
-            if not arg_names:
-                out.debug2(f'Extra argument "{argument}"')
-                self.extra_args.append(argument)
-                continue
-            name = arg_names.pop(0)
-            if self._fields[name].type == list:
-                out.debug2(f'Argument "{name}" = {arguments[index:]}')
-                setattr(self, name, arguments[index:])
-                break
-            value = self._fields[name].convert(argument)
-            out.debug2(f'Argument "{name}" = {value}')
-            setattr(self, name, value)
+        tokens = shlex.split(command_line)
+        command_parts = self._name.split('.')
+        argument_index = 0
+        index = 0
+        while index < len(tokens):
+            token = tokens[index]
+            if token in command_parts:
+                command_parts.remove(token)
+                index += 1
+            elif token.startswith('-'):
+                consumed = self._handle_option(tokens, index)
+                index += consumed
+            else:
+                consumed = self._handle_argument(tokens, index, argument_index)
+                if consumed > 0:
+                    argument_index += 1
+                    index += consumed
+                else:
+                    self.extra_args.append(token)
+                    index += 1
+
+    def _handle_option(self, tokens: List[str], index: int) -> int:
+        token = tokens[index]
+        option_str = token[2:] if token.startswith('--') else token[1:]
+        name, value = (
+            option_str.split('=', 1)
+            if '=' in option_str
+            else (option_str, None)
+        )
+        name = name.replace('-', '_')
+        option_field = self._find_option(name)
+        if not option_field:
+            self.extra_args.append(token)
+            return 1
+        consumed = 1
+        if value is None and option_field['field'].type != bool:
+            next_token = tokens[index + 1] if index + 1 < len(tokens) else None
+            if not next_token.startswith('-'):
+                value = next_token
+                consumed = 2
+        parsed_value = option_field['field'].convert(value)
+        option_name = option_field['name']
+        if option_field['is_global']:
+            self.app.set_option(option_name, parsed_value)
+            out.debug2(f'Global option "{option_name}" = {parsed_value}')
+        else:
+            setattr(self, option_name, parsed_value)
+            out.debug2(f'Option "{option_name}" = {parsed_value}')
+        return consumed
+
+    def _find_option(self, name: str) -> dict:
+        def _get_options(name: str) -> dict:
+            if name in self.app.options:
+                return self.app.options
+            if name in self._options:
+                return self._options
+            return {}
+
+        options = _get_options(name)
+        if not options:
+            return None
+        field_name = options[name] if isinstance(options[name], str) else name
+        return {
+            'field': options[field_name],
+            'name': field_name,
+            'is_global': name in self.app.options,
+        }
+
+    def _handle_argument(
+        self, tokens: List[str], index: int, argument_index: int
+    ) -> int:
+        if argument_index >= len(self._argument_names):
+            return 0
+        field_name = self._argument_names[argument_index]
+        field = self._fields[field_name]
+        if field.type == list:
+            list_values = []
+            consumed = 0
+            for i in range(index, len(tokens)):
+                token = tokens[i]
+                list_values.append(token)
+                consumed += 1
+            setattr(self, field_name, list_values)
+            out.debug2(f'Argument "{field_name}" = {list_values}')
+            return consumed
+        token = tokens[index]
+        value = field.convert(token)
+        setattr(self, field_name, value)
+        out.debug2(f'Argument "{field_name}" = {value}')
+        return 1
 
     def parse(self, command_line: str):
         self._parse_command_line(command_line)
