@@ -184,6 +184,7 @@ class App:
             out.setup(
                 not self.get_option('no_ansi'),
                 show_icons=self.show_messages_with_icons,
+                verbose=self.get_option('verbose'),
             )
             res = cmd.launch(cmd.command_line)
             if type(res) is int and res != 0:

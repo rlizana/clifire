@@ -123,3 +123,39 @@ def test_path():
     )
 
     assert app.path() == os.getcwd()
+
+
+def test_traceback_verbose_mode(capsys, monkeypatch):
+    class CommandError(command.Command):
+        _name = 'error'
+
+        def fire(self):
+            return 1 / 0  # ZeroDivisionError
+
+    monkeypatch.setattr(sys, 'argv', ['test', 'error', '-v'])
+    monkeypatch.setattr(out, '_traceback_handler', None)
+    monkeypatch.setattr(sys, 'excepthook', sys.__excepthook__)
+    app = application.App()
+    app.add_command(CommandError)
+    with pytest.raises(ZeroDivisionError):
+        app.fire('error -v')
+    assert sys.excepthook != sys.__excepthook__
+    printed = output(capsys)
+    assert 'Using Rich pretty traceback (verbose mode)' in printed
+
+
+def test_traceback_standard_mode(capsys, monkeypatch):
+    class CommandError(command.Command):
+        _name = 'error'
+
+        def fire(self):
+            return 1 / 0  # ZeroDivisionError
+
+    monkeypatch.setattr(sys, 'argv', ['test', 'error'])
+    monkeypatch.setattr(out, '_traceback_handler', None)
+    monkeypatch.setattr(sys, 'excepthook', sys.__excepthook__)
+    app = application.App()
+    app.add_command(CommandError)
+    with pytest.raises(ZeroDivisionError):
+        app.fire('error')
+    assert sys.excepthook == sys.__excepthook__

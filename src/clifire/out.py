@@ -11,12 +11,7 @@ from rich.live import Live
 from rich.prompt import Prompt
 from rich.table import Table
 
-traceback.install(
-    show_locals=True,
-    theme='monokai',
-    suppress=[],
-    max_frames=2,
-)
+_traceback_handler = None
 
 CONSOLE = Console()
 CONSOLE_WIDTH = CONSOLE.width
@@ -35,8 +30,10 @@ ICON_ERROR = '✗'
 ICON_WARN = '▲'
 
 
-def setup(ansi: bool = True, show_icons: bool = None) -> None:
-    global ICON_SHOW, CONSOLE, CONSOLE_WIDTH
+def setup(
+    ansi: bool = True, show_icons: bool = None, verbose: bool = False
+) -> None:
+    global ICON_SHOW, CONSOLE, CONSOLE_WIDTH, _traceback_handler
     if show_icons is not None:
         ICON_SHOW = show_icons
     if ansi:
@@ -51,6 +48,19 @@ def setup(ansi: bool = True, show_icons: bool = None) -> None:
         CONSOLE.soft_wrap = False
         CONSOLE.width = 10000
         debug('Console output setup with no ANSI')
+    if verbose:
+        if _traceback_handler is None or sys.excepthook == sys.__excepthook__:
+            _traceback_handler = traceback.install(
+                show_locals=True,
+                theme='monokai',
+                suppress=[],
+                max_frames=2,
+            )
+            debug('Using Rich pretty traceback (verbose mode)')
+    else:
+        if sys.excepthook != sys.__excepthook__:
+            sys.excepthook = sys.__excepthook__
+        debug('Using standard Python traceback')
 
 
 class LiveText:
