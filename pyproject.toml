@@ -1,6 +1,6 @@
 [project]
 name = "CliFire"
-version = "0.1.12"
+version = "0.1.13"
 description = "Minimal CLI framework to build Python commands quickly and elegantly."
 authors = [
     { name = "Roberto Lizana", email = "rober.lizana@gmail.com" }

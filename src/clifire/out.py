@@ -49,10 +49,6 @@ def setup(
         CONSOLE.width = 10000
         debug('Console output setup with no ANSI')
     if verbose:
-        if sys.excepthook != sys.__excepthook__:
-            sys.excepthook = sys.__excepthook__
-        debug('Using standard Python traceback (verbose mode)')
-    else:
         if _traceback_handler is None or sys.excepthook == sys.__excepthook__:
             _traceback_handler = traceback.install(
                 show_locals=True,
@@ -60,7 +56,11 @@ def setup(
                 suppress=[],
                 max_frames=2,
             )
-            debug('Using Rich pretty traceback')
+            debug('Using Rich pretty traceback (verbose mode)')
+    else:
+        if sys.excepthook != sys.__excepthook__:
+            sys.excepthook = sys.__excepthook__
+        debug('Using standard Python traceback')
 
 
 class LiveText:
