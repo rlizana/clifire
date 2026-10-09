@@ -8,7 +8,7 @@ def doc_build(cmd):
     '''
     Build the docs
     '''
-    bash = 'rye run mkdocs build'
+    bash = 'uv run mkdocs build'
     cmd.app.shell(bash, path='./docs', capture_output=False)
 
 
@@ -17,7 +17,7 @@ def doc_serve(cmd):
     '''
     Serve the docs
     '''
-    bash = 'rye run mkdocs serve'
+    bash = 'uv run mkdocs serve'
     cmd.app.shell(bash, path='./docs', capture_output=False)
 
 
@@ -57,7 +57,10 @@ def doc_record(cmd, filename: str, _force: bool = False):
     args = ''
     shell = os.environ.get('SHELL')
     if shell == '/bin/fish':
-        args = '-c \'fish --private -C "function fish_prompt; echo -n \\" > \\"; end"\''
+        args = (
+            "-c 'fish --private -C "
+            '"function fish_prompt; echo -n \\" > \\"; end"\''
+        )
     bash = f'asciinema rec {file_cast} {args}'
     pwd = cmd.app.path('./docs/docs')
     out.info(f'You are now in {pwd}')
@@ -82,7 +85,7 @@ def doc_publish(cmd):
     '''
     Publish docs in https://rlizana.github.io/clifire
     '''
-    bash = 'mkdocs gh-deploy'
+    bash = 'uv run mkdocs gh-deploy'
     cmd.app.shell(
         bash, path='./docs', shell=True, check=True, capture_output=False
     )

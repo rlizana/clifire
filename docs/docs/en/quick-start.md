@@ -18,6 +18,12 @@ pip install clifire
 poetry add clifire
 ```
 
+### Using uv
+
+```bash
+uv add clifire
+```
+
 ### Using Rye
 
 ```bash

@@ -33,6 +33,12 @@ Or with Poetry:
 poetry add clifire
 ```
 
+Or with uv:
+
+```bash
+uv add clifire
+```
+
 Or with rye:
 
 ```bash
@@ -88,13 +94,30 @@ The full documentation is available on GitHub Pages in [English](https://rlizana
 - [Changelog](https://rlizana.github.io/clifire/en/changelog)
 - [Contributing](https://rlizana.github.io/clifire/en/contributing)
 
+## For AI agents
+
+This project ships an [Agent Skill](https://agentskills.io) so coding agents can
+learn the framework without reading the whole source. The file lives at
+[`SKILL.md`](./SKILL.md) and is also bundled inside the PyPI package:
+
+```bash
+fire skill           # print the skill file content
+fire skill path      # print the skill file location
+fire skill install   # copy it where your agent will find it (Claude Code, Crush, ...)
+```
+
+`fire skill install` detects the agent hosts present in your home directory and
+the current project (`.claude/skills/`, `.agents/skills/`,
+`~/.config/crush/skills/`, `~/.claude/skills/`); use `--target all` to force all
+of them. The package is typed (`py.typed`), so LSPs and IDEs also get completions.
+
 ## Development
 
 CliFire is an open-source project, and contributions are welcome! If you find a bug, have a feature request, or want to contribute improvements, please open an issue or submit a pull request.
 
-> For development, we use [Rye](https://rye.astral.sh), a Python environment and dependency manager. Rye makes it easy to install dependencies and manage virtual environments. If you don't have it installed, you can follow the instructions on their [website](https://rye.astral.sh).
+> For development, we use [uv](https://docs.astral.sh/uv/), a fast Python environment and dependency manager. If you don't have it installed, run:
 ```bash
-curl -sSf https://rye.astral.sh/get | bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 To contribute to CliFire:
@@ -110,21 +133,20 @@ To contribute to CliFire:
    git checkout -b feature/my-feature
    ```
 4. **Install development dependencies**:
-   If you are using [Rye](https://rye-up.com/), you can install the development dependencies with:
 
    ```bash
-   rye install --with dev
+   uv sync
    ```
 5. **Run tests** to ensure everything works:
    ```bash
-   rye run pytest
+   uv run pytest
    # or to check coverage:
-   rye run coverage run -m pytest && rye run coverage html
+   uv run coverage run -m pytest && uv run coverage html
    ```
 
    You can also use the `fire coverage` command to run the tests and generate the coverage report:
    ```bash
-   rye run fire coverage
+   uv run fire coverage
    ```
 6. **Update the CHANGELOG.md** with your changes.
 7. **Commit and push** your changes, and then create a pull request.

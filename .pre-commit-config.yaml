@@ -3,61 +3,13 @@ default_language_version:
   python: python3
 
 repos:
-  - repo: https://github.com/psf/black
-    rev: "24.3.0"
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.10
     hooks:
-      - id: black
-        name: Black
-        language_version: python3.12
-        args: ["--line-length", "79", "--skip-string-normalization"]
+      - id: ruff
+        name: Ruff
+        args: ["--fix"]
         files: \.py$
-
-  - repo: https://github.com/PyCQA/isort
-    rev: "5.12.0"
-    hooks:
-      - id: isort
-        name: isort
-        language_version: python3.12
+      - id: ruff-format
+        name: Ruff format
         files: \.py$
-
-  - repo: https://github.com/pycqa/flake8
-    rev: "6.0.0"
-    hooks:
-      - id: flake8
-        name: Flake8
-        language_version: python3.12
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-comprehensions
-          - flake8-quotes==3.3.2
-        args: [
-          "--max-line-length=88",
-          "--ignore=E203,W503",
-          "--inline-quotes=single",
-          "--docstring-quotes=single"
-        ]
-        files: \.py$
-
-  - repo: https://github.com/asottile/seed-isort-config
-    rev: v2.2.0
-    hooks:
-      - id: seed-isort-config
-        name: Seed isort config
-        files: \.py$
-
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
-    hooks:
-      - id: pyupgrade
-        name: Automatically upgrade syntax for newer versions of the language
-        args: ["--py38-plus", "--keep-runtime-typing", "--keep-percent-format"]
-
-  - repo: local
-    hooks:
-      - id: update-version
-        name: Synchronize version with pyproject.toml
-        description: Updates the version in the code to match pyproject.toml
-        entry: fire update version
-        language: system
-        pass_filenames: false
-        files: 'pyproject\.toml|clifire/main\.py'

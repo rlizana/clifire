@@ -1,7 +1,7 @@
 import importlib.util
 import os
 
-from clifire import application, out
+from clifire import __version__, application, out
 
 
 def load(path):
@@ -31,7 +31,7 @@ def load_file(filename):
 
 
 def main(command_line: str = None):
-    app = application.App(name='CliFire', version='0.1.13')
+    app = application.App(name='CliFire', version=__version__)
     current_dir = os.getcwd()
     out.debug(f'Search commands in {current_dir} folder and parents')
     loaded = False

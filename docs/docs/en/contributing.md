@@ -40,14 +40,14 @@ There are several ways you can help:
 #### **Run the Tests:**
    Make sure all tests pass using:
    ```bash
-   rye run pytest
+   uv run pytest
    ```
    Check the coverage with:
    ```bash
-   rye run coverage run -m pytest && rye run coverage html
+   uv run coverage run -m pytest && uv run coverage html
    ```
 
-   You can also use `rye run fire coverage` to run the tests and generate the coverage report.
+   You can also use `uv run fire coverage` to run the tests and generate the coverage report.
 
 #### **Submit a Pull Request:**
    Once you are satisfied with your changes, submit a *pull request* to the main branch of the repository. Describe in detail what you have changed and the motivation behind it.

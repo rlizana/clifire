@@ -135,6 +135,38 @@ This is useful for generating configuration files or custom scripts that can be 
 3. **Parsing and Execution:**
    When the application is run, the command line is parsed, the command to execute is identified, and its options and arguments are processed.
 
+## 7. Built-in Commands
+
+Every application registers these commands automatically:
+
+- **`help [command]`** - shows help generated from your docstrings and fields.
+- **`version`** - prints the application name and version.
+- **`completion [bash|zsh|fish]`** - prints a shell completion script for your
+  commands and options. With `--install` it writes the script for the shell in
+  `$SHELL` and adds a `source` line to your rc file (fish completions are
+  auto-loaded). Use `--bin myapp` if your executable has a different name.
+- **`skill [print|path|install]`** - prints, locates or installs the bundled AI
+  agent skill file (`SKILL.md`) so coding agents that open your project learn
+  how to use your CLI (`--target auto|all|project|claude|crush`).
+
+Each built-in command can be disabled by passing `command_help=None`,
+`command_version=None`, `command_completion=None` or `command_skill=None` to
+`App(...)`.
+
+Every command also accepts the global options `-v/--verbose`, `--no-ansi` and
+`-h/--help`.
+
+## 8. Errors and Exit Codes
+
+- `out.critical(message, code)` prints an error and exits immediately.
+- Raise `clifire.errors.CommandError('message', code=50)` from inside a
+  command; `App.fire` converts it into a clean message and that exit code.
+- Returning an `int` from `fire()` also sets the exit code.
+
+Built-in exit codes: `10` no command provided, `20` command not found,
+`30` `CommandException`, `40` `FieldException` (invalid value or missing
+required argument).
+
 ## Conclusion
 
 With these basic concepts, you are ready to start using CliFire in your projects. The simplicity and flexibility of this framework will allow you to build powerful and customized CLI applications without complications.

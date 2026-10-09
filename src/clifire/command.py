@@ -4,6 +4,7 @@ import shlex
 from typing import List, Optional, Type, Union
 
 from clifire import out
+from clifire.errors import CommandException, FieldException
 
 
 def get_current_app():
@@ -92,21 +93,14 @@ class Field:
 
     def convert(self, value):
         try:
-            if self.type == list:
+            if self.type is list:
                 return value.split(',')
-            elif self.type == bool and value is None:
+            elif self.type is bool and value is None:
                 return True if self.default is None else not self.default
             return self.type(value)
         except Exception as exc:
             msg = f'with he value "{value}" must be {self.type.__name__}'
             raise FieldException(self, msg) from exc
-
-
-class FieldException(Exception):
-    def __init__(self, field: Field, msg: str):
-        self.field = field
-        field_type = 'option' if self.field.is_option else 'argument'
-        super().__init__(f'The {field_type} "{field.name}" {msg}')
 
 
 class Command:
@@ -195,7 +189,7 @@ class Command:
             self.extra_args.append(token)
             return 1
         consumed = 1
-        if value is None and option_field['field'].type != bool:
+        if value is None and option_field['field'].type is not bool:
             next_token = tokens[index + 1] if index + 1 < len(tokens) else None
             if not next_token.startswith('-'):
                 value = next_token
@@ -235,7 +229,7 @@ class Command:
             return 0
         field_name = self._argument_names[argument_index]
         field = self._fields[field_name]
-        if field.type == list:
+        if field.type is list:
             list_values = []
             consumed = 0
             for i in range(index, len(tokens)):
@@ -267,7 +261,3 @@ class Command:
 
     def fire(self):
         raise NotImplementedError
-
-
-class CommandException(Exception):
-    pass

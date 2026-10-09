@@ -1,6 +1,7 @@
 import sys
 
 import pytest
+
 from clifire import application, command, out
 
 
@@ -260,7 +261,7 @@ def test_command_option_list_force_type():
 
     cmd = app.get_command('contact')
     cmd.parse('contact NAME --list=one,two,three')
-    assert cmd._fields['list_option'].type == list
+    assert cmd._fields['list_option'].type is list
     assert isinstance(cmd.list_option, list)
     assert cmd.list_option == ['one', 'two', 'three']
 
@@ -276,7 +277,7 @@ def test_command_option_default_type():
 
     cmd = app.get_command('contact')
     cmd.parse('contact NAME --bool-option')
-    assert cmd._fields['bool_option'].type == bool
+    assert cmd._fields['bool_option'].type is bool
     assert isinstance(cmd.bool_option, bool)
     assert cmd.bool_option is True
 
