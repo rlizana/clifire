@@ -2,14 +2,14 @@ from clifire import command
 
 
 @command.fire
-def test_legacy(cmd, _build: bool = False, python_version: str = '3.8.2'):
-    '''
+def test_legacy(cmd, _build: bool = False, python_version: str = '3.8'):
+    """
     Launch tests in docker image with specified Python version
 
     Args:
-        python_version: Python version to use for the tests. (default: '3.8.2')
+        python_version: Python version to use for the tests. (default: '3.8')
         _build: Force build the Docker image before running tests.
-    '''
+    """
 
     image_name = f'clifire-py{python_version}'
 

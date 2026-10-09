@@ -9,6 +9,7 @@ __pycache__/
 
 # Lock files
 *.lock
+!uv.lock
 
 # Virtual Environment
 .venv

@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-10-07
+
+### Added
+- New `completion` command: `fire completion [bash|zsh|fish]` prints a shell completion script for the application commands and options; `fire completion --install` installs it for the shell in `$SHELL` (writes the script, appends a `source` line to the rc file; fish is auto-loaded). `--bin` changes the executable name.
+- New `skill` command and `clifire.skill` module: `fire skill [print|path|install]` prints, locates or installs the bundled AI agent skill file (`SKILL.md`) into agent hosts (`.claude/skills/`, `.agents/skills/`, `~/.config/crush/skills/`, `~/.claude/skills/`), with `--target auto|all|project|claude|crush`.
+- `SKILL.md` at the repository root, bundled inside the wheel so installed environments can discover it with `clifire.skill.path()`.
+- New `clifire.errors` module: `CommandError` (raise it inside a command to exit with a custom code) and centralized exit-code constants (`EXIT_NO_COMMAND`, `EXIT_COMMAND_NOT_FOUND`, `EXIT_COMMAND`, `EXIT_FIELD`).
+- PEP 561 typing marker (`py.typed`).
+- The `completion` and `skill` commands are registered by default on every `App` and can be disabled with `command_completion=None` / `command_skill=None`.
+
+### Changed
+- Development toolchain migrated from Rye to uv: `uv sync`, `uv run fire ...`, `uv.lock` replaces `requirements*.lock`, Dockerfile uses the official `uv` binary and CI uses `astral-sh/setup-uv`.
+- Linting and formatting now use ruff (lint + format) instead of black, isort, flake8, seed-isort-config and pyupgrade; configured with single quotes and `line-length = 79`.
+- The version is single-sourced from `clifire.__version__` (dynamic hatch version); the `update version` command and its pre-commit hook were removed.
+- Type comparisons now use `is` instead of `==` (ruff E721).
+- `requires-python` raised from `>= 3.6` to `>= 3.8` (Python 3.8 and 3.12 are tested in CI).
+- README documents installation with uv and includes an "For AI agents" section; the user guide documents the built-in commands and error/exit-code handling.
+
 ## [0.1.13] - 2026-08-14
 
 ### Added

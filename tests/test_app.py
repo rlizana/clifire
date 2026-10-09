@@ -5,6 +5,7 @@ import time
 from unittest.mock import patch
 
 import pytest
+
 from clifire import application, command, out
 
 

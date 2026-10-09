@@ -4,7 +4,7 @@ import subprocess
 import sys
 from typing import Any, Dict, List, Type
 
-from clifire import command, commands, config, out, result, template
+from clifire import command, commands, config, errors, out, result, template
 
 
 class App:
@@ -21,6 +21,8 @@ class App:
         config_create: bool = False,
         command_help=commands.help.CommandHelp,
         command_version=commands.version.CommandVersion,
+        command_completion=commands.completion.CommandCompletion,
+        command_skill=commands.skill.CommandSkill,
         template_folder=None,
         show_messages_with_icons: bool = True,
     ):
@@ -53,6 +55,10 @@ class App:
             self.add_command(command_help)
         if command_version:
             self.add_command(command_version)
+        if command_completion:
+            self.add_command(command_completion)
+        if command_skill:
+            self.add_command(command_skill)
         self.template = None
         if template_folder:
             self.template = template.Template(template_folder)
@@ -154,7 +160,7 @@ class App:
                 return self.commands[command_name]
             args.pop()
         if empty:
-            out.critical('No command provided.', code=10)
+            out.critical('No command provided.', code=errors.EXIT_NO_COMMAND)
         return None
 
     def get_command(self, command_line: str) -> command.Command:
@@ -163,6 +169,7 @@ class App:
         if cls:
             return cls(self, command_line)
         args = [p for p in shlex.split(command_line) if not p.startswith('-')]
+        last_arg = ''
         while args:
             group = '.'.join(args + [''])
             commands = [k for k in self.commands.keys() if k.startswith(group)]
@@ -171,7 +178,10 @@ class App:
                 if cls:
                     return cls(self, f'help {command_line}')
             last_arg = args.pop()
-        out.critical(f'Command "{last_arg}" not found.', code=20)
+        out.critical(
+            f'Command "{last_arg}" not found.',
+            code=errors.EXIT_COMMAND_NOT_FOUND,
+        )
 
     def fire(self, command_line: str = None):
         try:
@@ -189,10 +199,8 @@ class App:
             res = cmd.launch(cmd.command_line)
             if type(res) is int and res != 0:
                 sys.exit(res)
-        except command.CommandException as e:
-            out.critical(e, code=30)
-        except command.FieldException as e:
-            out.critical(e, code=40)
+        except errors.CommandError as e:
+            out.critical(str(e), code=e.code)
         except KeyboardInterrupt:
             out.error('Keyboard interrupt!')
             raise

@@ -27,7 +27,8 @@ def install(cmd, _global: False):
             '\n'.join(
                 [
                     '#!/bin/bash',
-                    f'rye run --pyproject {pyproject_path} fire "$@"',
+                    'uv run --project '
+                    f'{os.path.dirname(pyproject_path)} fire "$@"',
                 ]
             )
         )
@@ -48,7 +49,7 @@ def build(cmd):
     Build the package and documentation
     '''
     live = out.LiveText('Building ...')
-    res = cmd.app.shell('rye build')
+    res = cmd.app.shell('uv build')
     if res:
         live.success('Build success')
     else:
@@ -65,7 +66,7 @@ def publish(cmd):
     '''
     Publish then package
     '''
-    res = cmd.app.shell('rye publish -y', capture_output=False)
+    res = cmd.app.shell('uv publish', capture_output=False)
     if res:
         out.success('Published')
     else:
@@ -85,11 +86,11 @@ def coverage(cmd, file: str = ''):
         if not os.path.exists(test_path):
             out.critical(f'File {test_path} not exists')
         bash = (
-            f'rye run coverage run -m pytest {test_path} '
-            '&& rye run coverage html'
+            f'uv run coverage run -m pytest {test_path} '
+            '&& uv run coverage html'
         )
     else:
-        bash = 'rye run coverage run -m pytest && rye run coverage html'
+        bash = 'uv run coverage run -m pytest && uv run coverage html'
 
     cmd.app.shell(bash, capture_output=False)
 
@@ -99,7 +100,7 @@ def precommit(cmd):
     '''
     Launch pre-commit
     '''
-    cmd.app.shell('rye run pre-commit run --all-files', capture_output=False)
+    cmd.app.shell('uv run pre-commit run --all-files', capture_output=False)
 
 
 @command.fire
@@ -108,4 +109,4 @@ def tests(cmd):
     Launch tests
     '''
     path = cmd.app.path(os.path.dirname(__file__), '..')
-    cmd.app.shell('rye run python -m pytest', capture_output=False, path=path)
+    cmd.app.shell('uv run python -m pytest', capture_output=False, path=path)

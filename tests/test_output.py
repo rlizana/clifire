@@ -2,8 +2,9 @@ import time
 from io import StringIO
 
 import pytest
-from clifire import application, out
 from rich.console import Console
+
+from clifire import application, out
 
 
 @pytest.fixture(autouse=True)

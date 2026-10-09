@@ -3,6 +3,7 @@ import re
 from typing import List
 
 import jinja2
+
 from clifire import application
 
 

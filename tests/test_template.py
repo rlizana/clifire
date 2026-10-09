@@ -2,6 +2,7 @@ import os
 import tempfile
 
 import pytest
+
 from clifire import application
 
 

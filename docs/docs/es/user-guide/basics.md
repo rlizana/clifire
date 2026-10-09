@@ -136,6 +136,39 @@ Esto es útil para generar archivos de configuración o scripts personalizados q
 3. **Parseo y Ejecución:**
    Al lanzar la aplicación se analiza la línea de comandos, se identifica el comando a ejecutar y se procesan sus opciones y argumentos.
 
+## 7. Comandos Integrados
+
+Toda aplicación registra estos comandos automáticamente:
+
+- **`help [comando]`** - muestra la ayuda generada a partir de tus docstrings y campos.
+- **`version`** - imprime el nombre y la versión de la aplicación.
+- **`completion [bash|zsh|fish]`** - imprime un script de completado de shell para
+  tus comandos y opciones. Con `--install` escribe el script para el shell de
+  `$SHELL` y añade una línea `source` a tu fichero de configuración (los
+  completados de fish se cargan automáticamente). Usa `--bin myapp` si tu
+  ejecutable tiene otro nombre.
+- **`skill [print|path|install]`** - imprime, localiza o instala el fichero de
+  skill para agentes de IA (`SKILL.md`) incluido con la librería, para que los
+  agentes que abran tu proyecto sepan usar tu CLI (`--target auto|all|project|claude|crush`).
+
+Cada comando integrado puede desactivarse pasando `command_help=None`,
+`command_version=None`, `command_completion=None` o `command_skill=None` a
+`App(...)`.
+
+Todos los comandos también aceptan las opciones globales `-v/--verbose`,
+`--no-ansi` y `-h/--help`.
+
+## 8. Errores y Códigos de Salida
+
+- `out.critical(mensaje, code)` imprime un error y sale inmediatamente.
+- Lanza `clifire.errors.CommandError('mensaje', code=50)` desde dentro de un
+  comando; `App.fire` lo convierte en un mensaje limpio y ese código de salida.
+- Devolver un `int` desde `fire()` también fija el código de salida.
+
+Códigos de salida integrados: `10` sin comando, `20` comando no encontrado,
+`30` `CommandException`, `40` `FieldException` (valor inválido o argumento
+obligatorio ausente).
+
 ## Conclusión
 
 Con estos conceptos básicos, ya estás listo para empezar a usar CliFire en tus proyectos. La simplicidad y flexibilidad de este framework te permitirán construir aplicaciones CLI potentes y personalizadas sin complicaciones.

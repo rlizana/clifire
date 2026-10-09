@@ -1,53 +1,73 @@
 [project]
 name = "CliFire"
-version = "0.1.13"
+dynamic = ["version"]
 description = "Minimal CLI framework to build Python commands quickly and elegantly."
 authors = [
     { name = "Roberto Lizana", email = "rober.lizana@gmail.com" }
 ]
 packages = ["src"]
 readme = "README.md"
-requires-python = ">= 3.6"
+requires-python = ">= 3.8"
 dependencies = [
     "jinja2",
     "pyyaml",
     "rich",
+]
+keywords = [
+    "cli",
+    "command-line",
+    "framework",
+    "terminal",
+    "ai-agent",
+    "skill",
 ]
 
 [build-system]
 requires = ["hatchling==1.26.3"]  # Without a version spec, hatchling==1.27.0 is used which fails to publish. Ref: https://github.com/astral-sh/rye/issues/1446#issuecomment-2545154562
 build-backend = "hatchling.build"
 
-[tool.rye]
-managed = true
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "coverage",
     "mkdocs-material",
     "mkdocs-static-i18n",
     "mkdocs",
     "pre-commit",
     "pytest",
-    "black-with-tabs",
+    "ruff",
 ]
 
 [tool.hatch.metadata]
 allow-direct-references = true
 
+[tool.hatch.version]
+path = "src/clifire/__init__.py"
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/clifire"]
 
-[tool.rye.scripts]
-fire = 'python -m src.clifire.main'
-
-[tool.black]
-line-length = 79
-target-version = ["py38"]
-skip-string-normalization = true
-
-[flake8]
-inline-quotes = "'"
-multiline-quotes = "'"
-docstring-quotes = "'"
+[tool.hatch.build.targets.wheel.force-include]
+"SKILL.md" = "clifire/SKILL.md"
 
 [project.scripts]
 fire = "clifire.main:main"
+
+[tool.ruff]
+line-length = 79
+src = ["src"]
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "B", "C4", "Q", "I", "UP"]
+ignore = ["E203", "UP031"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "single"
+docstring-quotes = "single"
+
+[tool.ruff.lint.isort]
+known-first-party = ["clifire", "tests"]
+
+[tool.ruff.format]
+quote-style = "preserve"
