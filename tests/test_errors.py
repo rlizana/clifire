@@ -16,6 +16,7 @@ def test_exit_code_constants():
     assert errors.EXIT_COMMAND_NOT_FOUND == 20
     assert errors.EXIT_COMMAND == 30
     assert errors.EXIT_FIELD == 40
+    assert errors.EXIT_INTERRUPT == 130
 
 
 def test_exception_codes():

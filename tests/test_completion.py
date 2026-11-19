@@ -3,7 +3,7 @@ import subprocess
 
 import pytest
 
-from clifire import application
+from clifire import application, command
 from clifire.commands import completion
 from tests.test_output import output
 
@@ -41,6 +41,23 @@ def test_fish_script():
     assert '__fish_use_subcommand' in script
     assert "-a 'completion'" in script
     assert '-l install' in script
+
+
+def test_fish_script_grouped_command():
+    class GroupCommand(command.Command):
+        _name = 'ab.cd'
+        _help = 'Grouped command'
+
+    app = application.App()
+    app.add_command(GroupCommand)
+    script = completion.fish_script(app, 'fire')
+    assert "-n '__fish_seen_subcommand_from ab'" in script
+    assert "-a 'cd'" in script
+
+
+def test_detect_shell_fallback(monkeypatch):
+    monkeypatch.setenv('SHELL', '/usr/bin/unknown')
+    assert completion.detect_shell() == 'bash'
 
 
 def test_bash_syntax(tmp_path):
