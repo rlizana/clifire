@@ -81,6 +81,40 @@ def test_skill_install_auto_existing_dir(tmp_path, monkeypatch):
     assert not (tmp_path / '.config/crush/skills/clifire/SKILL.md').exists()
 
 
+def test_skill_install_single_target(tmp_path, monkeypatch, capsys):
+    monkeypatch.setenv('HOME', str(tmp_path))
+    monkeypatch.chdir(tmp_path)
+    app = application.App()
+    app.fire('skill install --target claude')
+    assert (tmp_path / '.claude/skills/clifire/SKILL.md').exists()
+    assert not (tmp_path / '.config/crush/skills/clifire/SKILL.md').exists()
+    assert not (tmp_path / '.agents/skills/clifire/SKILL.md').exists()
+    printed = output(capsys)
+    assert 'Installed skill file at' in printed
+
+
+def test_skill_install_source_as_target(monkeypatch):
+    source = skill.path()
+    monkeypatch.setattr(skill, 'targets', lambda: {'claude': source})
+    assert skill.install('claude') == [source]
+
+
+def test_skill_path_without_checkout(monkeypatch):
+    checkout = os.path.abspath(
+        os.path.join(os.path.dirname(skill.__file__), '..', '..', 'SKILL.md')
+    )
+    real_exists = os.path.exists
+    monkeypatch.setattr(
+        os.path,
+        'exists',
+        lambda path: real_exists(path) and os.path.abspath(path) != checkout,
+    )
+    path = skill.path()
+    folder = os.path.dirname(os.path.abspath(skill.__file__))
+    assert path == os.path.join(folder, 'SKILL.md')
+    assert path != checkout
+
+
 def test_skill_invalid_target(capsys):
     app = application.App()
     with pytest.raises(SystemExit) as excinfo:

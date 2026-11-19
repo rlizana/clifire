@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
-from clifire import application, command, out
+from clifire import application, command, errors, out
 
 
 def output(capsys):
@@ -29,13 +29,15 @@ def test_app_keyboard_interrupt(capsys):
     app.add_command(CommandWait)
 
     with patch('time.sleep', side_effect=KeyboardInterrupt):
-        with pytest.raises(KeyboardInterrupt):
+        with pytest.raises(SystemExit) as excinfo:
             app.fire('wait')
 
+    assert excinfo.value.code == errors.EXIT_INTERRUPT
     printed = output(capsys)
     assert 'KeyboardInterrupt received' in printed
     assert 'End command' not in printed
-    assert 'Keyboard interrupt!' in printed
+    assert 'User keyboard interrupt' in printed
+    assert 'Keyboard interrupt!' not in printed
 
 
 def test_app_global_option_no_ansi(capsys):
@@ -134,15 +136,14 @@ def test_traceback_verbose_mode(capsys, monkeypatch):
             return 1 / 0  # ZeroDivisionError
 
     monkeypatch.setattr(sys, 'argv', ['test', 'error', '-v'])
-    monkeypatch.setattr(out, '_traceback_handler', None)
     monkeypatch.setattr(sys, 'excepthook', sys.__excepthook__)
     app = application.App()
     app.add_command(CommandError)
     with pytest.raises(ZeroDivisionError):
         app.fire('error -v')
-    assert sys.excepthook != sys.__excepthook__
+    assert sys.excepthook is sys.__excepthook__
     printed = output(capsys)
-    assert 'Using Rich pretty traceback (verbose mode)' in printed
+    assert 'Using Rich pretty traceback' not in printed
 
 
 def test_traceback_standard_mode(capsys, monkeypatch):
@@ -153,10 +154,9 @@ def test_traceback_standard_mode(capsys, monkeypatch):
             return 1 / 0  # ZeroDivisionError
 
     monkeypatch.setattr(sys, 'argv', ['test', 'error'])
-    monkeypatch.setattr(out, '_traceback_handler', None)
     monkeypatch.setattr(sys, 'excepthook', sys.__excepthook__)
     app = application.App()
     app.add_command(CommandError)
     with pytest.raises(ZeroDivisionError):
         app.fire('error')
-    assert sys.excepthook == sys.__excepthook__
+    assert sys.excepthook is sys.__excepthook__

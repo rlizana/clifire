@@ -81,6 +81,16 @@ def test_fire_not_found_in_parents(capsys):
         assert 'Command without doc' not in output(capsys)
 
 
+def test_fire_not_found(capsys, monkeypatch):
+    monkeypatch.setattr(main, 'load', lambda path: False)
+    with pytest.raises(SystemExit) as excinfo:
+        main.main('nodoc')
+    assert excinfo.value.code == 1
+    printed = output(capsys)
+    assert 'Fire not found!' in printed
+    assert 'Command without doc' not in printed
+
+
 def test_fire_find_file_py_in_parents(capsys):
     with in_path('sample', 'parent'):
         main.main('nodoc')

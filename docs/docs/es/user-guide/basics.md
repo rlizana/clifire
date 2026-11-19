@@ -164,10 +164,12 @@ Todos los comandos también aceptan las opciones globales `-v/--verbose`,
 - Lanza `clifire.errors.CommandError('mensaje', code=50)` desde dentro de un
   comando; `App.fire` lo convierte en un mensaje limpio y ese código de salida.
 - Devolver un `int` desde `fire()` también fija el código de salida.
+- Al pulsar Ctrl+C (`KeyboardInterrupt`) se imprime `User keyboard interrupt` en
+  rojo y se sale con el código `130`, sin imprimir ningún traceback.
 
 Códigos de salida integrados: `10` sin comando, `20` comando no encontrado,
 `30` `CommandException`, `40` `FieldException` (valor inválido o argumento
-obligatorio ausente).
+obligatorio ausente), `130` interrupción de teclado.
 
 ## Conclusión
 

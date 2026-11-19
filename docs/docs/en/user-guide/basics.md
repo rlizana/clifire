@@ -162,10 +162,12 @@ Every command also accepts the global options `-v/--verbose`, `--no-ansi` and
 - Raise `clifire.errors.CommandError('message', code=50)` from inside a
   command; `App.fire` converts it into a clean message and that exit code.
 - Returning an `int` from `fire()` also sets the exit code.
+- Pressing Ctrl+C (`KeyboardInterrupt`) prints `User keyboard interrupt` in red
+  and exits with code `130`, without printing any traceback.
 
 Built-in exit codes: `10` no command provided, `20` command not found,
 `30` `CommandException`, `40` `FieldException` (invalid value or missing
-required argument).
+required argument), `130` keyboard interrupt.
 
 ## Conclusion
 
